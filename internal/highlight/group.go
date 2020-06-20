@@ -24,32 +24,36 @@ type Group struct {
 	GUISp ColorName
 }
 
-func (g *Group) WithAttrList(list AttrList) *Group {
-	g.Term = list
-	g.CTerm = list
-	g.GUI = list
+func (g *Group) WithAttrSet(attrSet AttrSet) *Group {
+	g.Term = attrSet.Term
+	g.CTerm = attrSet.CTerm
+	g.GUI = attrSet.GUI
 	return g
 }
 
-func (g *Group) WithFg(c *Color) *Group {
+func (g *Group) WithFg(c Color) *Group {
 	g.CTermFg = c.Nr
 	g.GUIFg = c.Name
 	return g
 }
 
-func (g *Group) WithBg(c *Color) *Group {
+func (g *Group) WithBg(c Color) *Group {
 	g.CTermBg = c.Nr
 	g.GUIBg = c.Name
 	return g
 }
 
-func (g *Group) WithSp(c *Color) *Group {
+func (g *Group) WithSp(c Color) *Group {
 	g.GUISp = c.Name
 	return g
 }
 
-func (g *Group) WithFgBg(fg, bg *Color) *Group {
-	return g.WithFg(fg).WithBg(bg)
+func (g *Group) WithColorSet(colorSet ColorSet) *Group {
+	return g.WithFg(colorSet.Fg).WithBg(colorSet.Bg).WithSp(colorSet.Sp)
+}
+
+func (g *Group) WithArguments(args Arguments) *Group {
+	return g.WithAttrSet(args.AttrSet).WithColorSet(args.ColorSet)
 }
 
 func (g *Group) Marshal(w io.Writer) error {

@@ -46,7 +46,8 @@ type Color struct {
 	Name ColorName
 }
 
-type Colors struct {
+type ColorSet struct {
 	Fg Color
 	Bg Color
+	Sp Color
 }
