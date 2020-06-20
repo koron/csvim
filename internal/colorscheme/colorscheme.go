@@ -137,7 +137,7 @@ if exists("syntax_on")
   syntax reset
 endif
 let g:colors_name = %[1]q
-`, cs.Name, cs.Background); err != nil {
+`, cs.Name, bg); err != nil {
 		return nil
 	}
 	if err := cs.marshalNormal(w); err != nil {
