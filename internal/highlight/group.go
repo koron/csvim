@@ -24,6 +24,10 @@ type Group struct {
 	GUISp ColorName
 }
 
+func NewGroup(name string) *Group {
+	return &Group{Name: name}
+}
+
 func (g *Group) WithAttrSet(attrSet AttrSet) *Group {
 	g.Term = attrSet.Term
 	g.CTerm = attrSet.CTerm
@@ -96,7 +100,7 @@ func (g *Group) Marshal(w io.Writer) error {
 	if err := g.GUIBg.writeTo(w, "guibg"); err != nil {
 		return err
 	}
-	if err := g.GUIBg.writeTo(w, "guisp"); err != nil {
+	if err := g.GUISp.writeTo(w, "guisp"); err != nil {
 		return err
 	}
 

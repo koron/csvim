@@ -8,6 +8,8 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
+var WarnDefaultGroups bool
+
 type Background string
 
 const (
@@ -53,6 +55,15 @@ type ColorScheme struct {
 
 	linkIdx map[string]int
 	links   links
+}
+
+func New(name string) *ColorScheme {
+	return &ColorScheme{Name: name}
+}
+
+func (cs *ColorScheme) WithBackground(bg Background) *ColorScheme {
+	cs.Background = bg
+	return cs
 }
 
 func (cs *ColorScheme) removeGroup(name string) bool {
@@ -138,6 +149,19 @@ let g:colors_name = %[1]q
 	if err := cs.marshalLinks(w); err != nil {
 		return err
 	}
+	if WarnDefaultGroups {
+		names := cs.undefinedDefaultGroups()
+		if len(names) > 0 {
+			if _, err := fmt.Fprint(w, "\n\" WARNING: undefined default groups:\n"); err != nil {
+				return err
+			}
+			for _, n := range names {
+				if _, err := fmt.Fprintf(w, "\"  - %s\n", n); err != nil {
+					return err
+				}
+			}
+		}
+	}
 	return nil
 }
 
@@ -201,6 +225,14 @@ func (cs *ColorScheme) getGroup(name string) *highlight.Group {
 	return cs.groups[x]
 }
 
+func (cs *ColorScheme) getLink(name string) *highlight.Link {
+	x, ok := cs.linkIdx[name]
+	if !ok {
+		return nil
+	}
+	return cs.links[x]
+}
+
 func (cs *ColorScheme) defaultGroups() groups {
 	if len(cs.groupIdx) == 0 {
 		return nil
@@ -225,4 +257,21 @@ func (cs *ColorScheme) customGroups() groups {
 		}
 	}
 	return gs
+}
+
+func (cs *ColorScheme) undefinedDefaultGroups() []string {
+	names := make([]string, 0, len(cs.groupIdx))
+	for _, n := range highlight.DefaultGroupNames {
+		if g := cs.getGroup(n); g != nil {
+			continue
+		}
+		if l := cs.getLink(n); l != nil {
+			continue
+		}
+		if n == highlight.Normal && cs.Normal != nil {
+			continue
+		}
+		names = append(names, n)
+	}
+	return names
 }
