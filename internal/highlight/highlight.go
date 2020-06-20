@@ -11,15 +11,15 @@ type Attr string
 
 const (
 	None          Attr = "NONE"
-	Bold               = "bold"
-	Underline          = "underline"
-	Undercurl          = "undercurl"
-	Strikethrough      = "strikethrough"
-	Reverse            = "reverse"
-	Inverse            = "inverse"
-	Italic             = "italic"
-	Standout           = "standout"
-	Nocombine          = "nocombine"
+	Bold          Attr = "bold"
+	Underline     Attr = "underline"
+	Undercurl     Attr = "undercurl"
+	Strikethrough Attr = "strikethrough"
+	Reverse       Attr = "reverse"
+	Inverse       Attr = "inverse"
+	Italic        Attr = "italic"
+	Standout      Attr = "standout"
+	Nocombine     Attr = "nocombine"
 )
 
 type AttrList []Attr

@@ -1,7 +1,12 @@
 package main
 
+import (
+	"context"
+	"log"
+)
+
 func main() {
-	err := run(context.Background()
+	err := run(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}

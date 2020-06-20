@@ -12,13 +12,16 @@ type Background string
 
 const (
 	Dark  Background = "dark"
-	Light            = "light"
+	Light Background = "light"
 )
 
 type groups []*highlight.Group
 
 func (gs groups) marshal(w io.Writer) error {
 	for _, g := range gs {
+		if g == nil {
+			continue
+		}
 		if err := g.Marshal(w); err != nil {
 			return err
 		}
@@ -30,6 +33,9 @@ type links []*highlight.Link
 
 func (ls links) marshal(w io.Writer) error {
 	for _, l := range ls {
+		if l == nil {
+			continue
+		}
 		if err := l.Marshal(w); err != nil {
 			return err
 		}
@@ -46,7 +52,7 @@ type ColorScheme struct {
 	groups   groups
 
 	linkIdx map[string]int
-	links   []*highlight.Link
+	links   links
 }
 
 func (cs *ColorScheme) removeGroup(name string) bool {
@@ -163,7 +169,7 @@ func (cs *ColorScheme) marshalGroups(w io.Writer) error {
 	}
 	gs1 := cs.customGroups()
 	if len(gs1) > 0 {
-		if _, err := fmt.Fprintln(w, "\n\" custom groups\n"); err != nil {
+		if _, err := fmt.Fprint(w, "\n\" custom groups\n"); err != nil {
 			return err
 		}
 		if err := gs1.marshal(w); err != nil {
@@ -177,17 +183,12 @@ func (cs *ColorScheme) marshalLinks(w io.Writer) error {
 	if len(cs.links) == 0 {
 		return nil
 	}
-	if _, err := fmt.Fprintln(w, "\n\" links\n"); err != nil {
+	if _, err := fmt.Fprint(w, "\n\" links\n"); err != nil {
 		return err
 	}
 	// FIXME: sort links by dependencies.
-	for _, ln := range cs.links {
-		if ln == nil {
-			continue
-		}
-		if err := ln.Marshal(w); err != nil {
-			return err
-		}
+	if err := cs.links.marshal(w); err != nil {
+		return err
 	}
 	return nil
 }
