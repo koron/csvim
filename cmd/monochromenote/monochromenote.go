@@ -78,7 +78,10 @@ func main() {
 	)
 
 	cs.AddGroup(highlight.NewGroup("Normal").WithArguments(baseArgs))
-	cs.AddGroup(highlight.NewGroup("NonText").WithColorSet(lightCS).WithAttrSet(boldAS))
+	cs.AddGroup(highlight.NewGroup("NonText").WithArguments(highlight.Arguments{
+		AttrSet:  boldAS,
+		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
+	}))
 	cs.AddGroup(highlight.NewGroup("FoldColumn").WithArguments(foldColArgs))
 	cs.AddGroup(highlight.NewGroup("SignColumn").WithArguments(foldColArgs))
 
@@ -98,10 +101,10 @@ func main() {
 	}))
 
 	extraCursorArgs := highlight.Arguments{
-		AttrSet:  revAS,
+		AttrSet: revAS,
 		ColorSet: highlight.ColorSet{
 			Fg: highlight.Color{Nr: "White", Name: "white"},
-			Bg: highlight.Color{Nr: "DarkGray", Name: "gray25" },
+			Bg: highlight.Color{Nr: "DarkGray", Name: "gray25"},
 		},
 	}
 	cs.AddGroup(highlight.NewGroup("lCursor").WithArguments(extraCursorArgs))
