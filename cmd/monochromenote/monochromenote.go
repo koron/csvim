@@ -68,7 +68,7 @@ func main() {
 			AttrSet: baseAS,
 			ColorSet: highlight.ColorSet{
 				Fg: highlight.Color{Nr: "LightGray", Name: "gray80"},
-				Bg: highlight.Color{Nr: "DarkGray", Name: "gray20"},
+				Bg: highlight.Color{Nr: "DarkGray", Name: "gray50"},
 			},
 		}
 		lightBoldArgs = highlight.Arguments{AttrSet: boldAS, ColorSet: lightCS}
@@ -97,14 +97,22 @@ func main() {
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: lightFg},
 	}))
 
-	cs.AddGroup(highlight.NewGroup("lCursor").WithColorSet(baseCS).WithAttrSet(revAS))
-	cs.AddGroup(highlight.NewGroup("CursorIM").WithColorSet(baseCS).WithAttrSet(revAS))
+	extraCursorArgs := highlight.Arguments{
+		AttrSet:  revAS,
+		ColorSet: highlight.ColorSet{
+			Fg: highlight.Color{Nr: "White", Name: "white"},
+			Bg: highlight.Color{Nr: "DarkGray", Name: "gray25" },
+		},
+	}
+	cs.AddGroup(highlight.NewGroup("lCursor").WithArguments(extraCursorArgs))
+	cs.AddGroup(highlight.NewGroup("CursorIM").WithArguments(extraCursorArgs))
 
 	cs.AddGroup(highlight.NewGroup("LineNr").WithArguments(lightArgs))
 	cs.AddGroup(highlight.NewGroup("CursorLineNr").WithColorSet(lightCS).WithAttrSet(boldAS))
 	cs.AddGroup(highlight.NewGroup("Search").WithArguments(darkAccent2Args))
-	cs.AddGroup(highlight.NewGroup("WildMenu").WithArguments(darkAccent2Args))
 	cs.AddLink(highlight.NewLink("IncSearch", "Cursor"))
+
+	cs.AddGroup(highlight.NewGroup("WildMenu").WithArguments(extraCursorArgs))
 
 	cs.AddGroup(highlight.NewGroup("Folded").WithArguments(lightArgs))
 	cs.AddGroup(highlight.NewGroup("Question").WithArguments(lightArgs))
@@ -112,8 +120,9 @@ func main() {
 	cs.AddGroup(highlight.NewGroup("Conceal").WithArguments(lightArgs))
 	cs.AddGroup(highlight.NewGroup("SpecialKey").WithArguments(lightArgs))
 
-	cs.AddGroup(&highlight.Group{Name: "Visual", Term: attrRev, CTerm: attrRev, GUIBg: lightFg.Name})
-	cs.AddGroup((&highlight.Group{Name: "VisualNOS", GUIBg: lightFg.Name}).WithAttrSet(boldULAS))
+	visualBg := highlight.Color{Nr: "LightGray", Name: "gray85"}
+	cs.AddGroup(&highlight.Group{Name: "Visual", Term: attrRev, CTerm: attrRev, GUIBg: visualBg.Name})
+	cs.AddGroup((&highlight.Group{Name: "VisualNOS", GUIBg: visualBg.Name}).WithAttrSet(boldULAS))
 
 	cs.AddGroup(highlight.NewGroup("Directory").WithArguments(semiBoldArgs))
 	cs.AddGroup(highlight.NewGroup("ErrorMsg").WithArguments(darkAccent1Args))
