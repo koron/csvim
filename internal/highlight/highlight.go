@@ -1,40 +1,128 @@
 package highlight
 
-import (
-	"fmt"
-	"io"
-)
-
 var Command = "highlight"
 
-type TermList []string
+const (
+	Normal           = "Normal"
+	ColorColumn      = "ColorColumn"
+	Conceal          = "Conceal"
+	Cursor           = "Cursor"
+	CursorColumn     = "CursorColumn"
+	CursorIM         = "CursorIM"
+	CursorLine       = "CursorLine"
+	CursorLineNr     = "CursorLineNr"
+	DiffAdd          = "DiffAdd"
+	DiffChange       = "DiffChange"
+	DiffDelete       = "DiffDelete"
+	DiffText         = "DiffText"
+	Directory        = "Directory"
+	EndOfBuffer      = "EndOfBuffer"
+	ErrorMsg         = "ErrorMsg"
+	FoldColumn       = "FoldColumn"
+	Folded           = "Folded"
+	IncSearch        = "IncSearch"
+	LineNr           = "LineNr"
+	LineNrAbove      = "LineNrAbove"
+	LineNrBelow      = "LineNrBelow"
+	MatchParen       = "MatchParen"
+	ModeMsg          = "ModeMsg"
+	MoreMsg          = "MoreMsg"
+	NonText          = "NonText"
+	Pmenu            = "Pmenu"
+	PmenuSbar        = "PmenuSbar"
+	PmenuSel         = "PmenuSel"
+	PmenuThumb       = "PmenuThumb"
+	Question         = "Question"
+	QuickFixLine     = "QuickFixLine"
+	Search           = "Search"
+	SignColumn       = "SignColumn"
+	SpecialKey       = "SpecialKey"
+	SpellBad         = "SpellBad"
+	SpellCap         = "SpellCap"
+	SpellLocal       = "SpellLocal"
+	SpellRare        = "SpellRare"
+	StatusLine       = "StatusLine"
+	StatusLineNC     = "StatusLineNC"
+	StatusLineTerm   = "StatusLineTerm"
+	StatusLineTermNC = "StatusLineTermNC"
+	TabLine          = "TabLine"
+	TabLineFill      = "TabLineFill"
+	TabLineSel       = "TabLineSel"
+	Terminal         = "Terminal"
+	Title            = "Title"
+	VertSplit        = "VertSplit"
+	Visual           = "Visual"
+	VisualNOS        = "VisualNOS"
+	WarningMsg       = "WarningMsg"
+	WildMenu         = "WildMenu"
+	LCursor          = "lCursor"
+)
 
-func (terms *TermList) merge (src TermList) {
-	if len(src) == 0 {
-		return
-	}
-	*terms = append(*terms, src...)
+var DefaultGroupNames = []string{
+	Normal,
+	ColorColumn,
+	Conceal,
+	Cursor,
+	CursorColumn,
+	CursorIM,
+	CursorLine,
+	CursorLineNr,
+	DiffAdd,
+	DiffChange,
+	DiffDelete,
+	DiffText,
+	Directory,
+	EndOfBuffer,
+	ErrorMsg,
+	FoldColumn,
+	Folded,
+	IncSearch,
+	LineNr,
+	LineNrAbove,
+	LineNrBelow,
+	MatchParen,
+	ModeMsg,
+	MoreMsg,
+	NonText,
+	Pmenu,
+	PmenuSbar,
+	PmenuSel,
+	PmenuThumb,
+	Question,
+	QuickFixLine,
+	Search,
+	SignColumn,
+	SpecialKey,
+	SpellBad,
+	SpellCap,
+	SpellLocal,
+	SpellRare,
+	StatusLine,
+	StatusLineNC,
+	StatusLineTerm,
+	StatusLineTermNC,
+	TabLine,
+	TabLineFill,
+	TabLineSel,
+	Terminal,
+	Title,
+	VertSplit,
+	Visual,
+	VisualNOS,
+	WarningMsg,
+	WildMenu,
+	LCursor,
 }
 
-func (terms TermList) writeTo(w io.Writer, label string) error {
-	if len(terms) == 0 {
-		return nil
+var defaultGroups = map[string]struct{}{}
+
+func init() {
+	for _, g := range DefaultGroupNames {
+		defaultGroups[g] = struct{}{}
 	}
-	_, err := fmt.Fprintf(w, " %s=", label)
-	if err != nil {
-		return err
-	}
-	for i, term := range terms {
-		if i != 0 {
-			_, err := io.WriteString(w, ",")
-			if err != nil {
-				return err
-			}
-		}
-		_, err := io.WriteString(w, string(term))
-		if err != nil {
-			return err
-		}
-	}
-	return nil
+}
+
+func IsDefaultGroup(name string) bool {
+	_, ok := defaultGroups[name]
+	return ok
 }
