@@ -13,12 +13,12 @@ func main() {
 	cs := colorscheme.New("monochromenote").WithBackground(colorscheme.Light)
 
 	var (
-		attrNone   = highlight.AttrList{highlight.None}
-		attrBold   = highlight.AttrList{highlight.Bold}
-		attrRev    = highlight.AttrList{highlight.Reverse}
-		attrUC     = highlight.AttrList{highlight.Undercurl}
-		attrUL     = highlight.AttrList{highlight.Underline}
-		attrBoldUL = highlight.AttrList{highlight.Bold, highlight.Underline}
+		attrNone   = highlight.AttrList{"NONE"}
+		attrBold   = highlight.AttrList{"bold"}
+		attrRev    = highlight.AttrList{"reverse"}
+		attrUC     = highlight.AttrList{"undercurl"}
+		attrUL     = highlight.AttrList{"underline"}
+		attrBoldUL = highlight.AttrList{"bold", "underline"}
 
 		baseAS   = highlight.AttrSet{Term: attrNone, GUI: attrNone}
 		boldAS   = highlight.AttrSet{Term: attrBold, GUI: attrBold}

@@ -30,6 +30,31 @@ func NewGroup(name string) *Group {
 	return &Group{Name: name}
 }
 
+func (g *Group) WithTerm(src AttrList) *Group {
+	g.Term.merge(src)
+	return g
+}
+
+func (g *Group) WithStart(src TermList) *Group {
+	g.Start.merge(src)
+	return g
+}
+
+func (g *Group) WithStop(src TermList) *Group {
+	g.Stop.merge(src)
+	return g
+}
+
+func (g *Group) WithCTerm(src AttrList) *Group {
+	g.CTerm.merge(src)
+	return g
+}
+
+func (g *Group) WithGUI(src AttrList) *Group {
+	g.GUI.merge(src)
+	return g
+}
+
 // Merge merges/includes "groups" into "g" and returns modified "g".
 func (g *Group) Merge(groups ...*Group) *Group {
 	for _, src := range groups {

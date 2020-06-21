@@ -7,22 +7,22 @@ import (
 
 type Attr string
 
-const (
-	None          Attr = "NONE"
-	Bold          Attr = "bold"
-	Underline     Attr = "underline"
-	Undercurl     Attr = "undercurl"
-	Strikethrough Attr = "strikethrough"
-	Reverse       Attr = "reverse"
-	Inverse       Attr = "inverse"
-	Italic        Attr = "italic"
-	Standout      Attr = "standout"
-	Nocombine     Attr = "nocombine"
+var (
+	None          = AttrList{"NONE"}
+	Bold          = AttrList{"bold"}
+	Underline     = AttrList{"underline"}
+	Undercurl     = AttrList{"undercurl"}
+	Strikethrough = AttrList{"strikethrough"}
+	Reverse       = AttrList{"reverse"}
+	Inverse       = AttrList{"inverse"}
+	Italic        = AttrList{"italic"}
+	Standout      = AttrList{"standout"}
+	Nocombine     = AttrList{"nocombine"}
 )
 
 type AttrList []Attr
 
-func (attrs *AttrList) merge (src AttrList) {
+func (attrs *AttrList) merge(src AttrList) {
 	if len(src) == 0 {
 		return
 	}
