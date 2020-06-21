@@ -23,6 +23,12 @@ func (cn ColorNr) writeTo(w io.Writer, label string) error {
 	return err
 }
 
+func (cn *ColorNr) merge(src ColorNr) {
+	if src.isValid() {
+		*cn = src
+	}
+}
+
 type ColorName string
 
 func (cn ColorName) String() string {
@@ -33,21 +39,16 @@ func (cn ColorName) isValid() bool {
 	return cn != ""
 }
 
+func (cn *ColorName) merge(src ColorName) {
+	if src.isValid() {
+		*cn = src
+	}
+}
+
 func (cn ColorName) writeTo(w io.Writer, label string) error {
 	if !cn.isValid() {
 		return nil
 	}
 	_, err := fmt.Fprintf(w, " %s=%s", label, cn.String())
 	return err
-}
-
-type Color struct {
-	Nr   ColorNr
-	Name ColorName
-}
-
-type ColorSet struct {
-	Fg Color
-	Bg Color
-	Sp Color
 }

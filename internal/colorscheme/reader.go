@@ -79,7 +79,7 @@ func Read(rd io.Reader) (*ColorScheme, error) {
 			return nil
 		}
 
-		g := &highlight.Group{Name: first}
+		g := &highlight.Group{Name: first, Default: defaultFlag}
 		for _, item := range items {
 			if item == "NONE" {
 				return nil

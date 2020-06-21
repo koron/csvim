@@ -207,8 +207,15 @@ func main() {
 	cs.AddGroup(highlight.NewGroup("Special").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: darkFg, Bg: lightBg}))
 	cs.AddGroup(highlight.NewGroup("Constant").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: baseFg, Bg: lightBg}))
 	cs.AddGroup(highlight.NewGroup("Error").WithArguments(darkAccent1Args))
-	cs.AddGroup(highlight.NewGroup("Todo").WithArguments(darkAccent2Args))
 	cs.AddGroup(highlight.NewGroup("Underlined").WithArguments(highlight.Arguments{AttrSet: ulAS, ColorSet: baseCS}))
+
+	cs.AddGroup(highlight.NewGroup("Todo").WithArguments(highlight.Arguments{
+		AttrSet: baseAS,
+		ColorSet: highlight.ColorSet{
+			Fg: highlight.Color{Nr: "LightGray", Name: "gray90"},
+			Bg: highlight.Color{Nr: "DarkGray", Name: "gray50"},
+		},
+	}))
 
 	if err := cs.Marshal(os.Stdout); err != nil {
 		log.Fatal(err)

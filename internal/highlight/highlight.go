@@ -9,6 +9,13 @@ var Command = "highlight"
 
 type TermList []string
 
+func (terms *TermList) merge (src TermList) {
+	if len(src) == 0 {
+		return
+	}
+	*terms = append(*terms, src...)
+}
+
 func (terms TermList) writeTo(w io.Writer, label string) error {
 	if len(terms) == 0 {
 		return nil
@@ -30,9 +37,4 @@ func (terms TermList) writeTo(w io.Writer, label string) error {
 		}
 	}
 	return nil
-}
-
-type Arguments struct {
-	AttrSet  AttrSet
-	ColorSet ColorSet
 }

@@ -22,6 +22,13 @@ const (
 
 type AttrList []Attr
 
+func (attrs *AttrList) merge (src AttrList) {
+	if len(src) == 0 {
+		return
+	}
+	*attrs = append(*attrs, src...)
+}
+
 func (attrs AttrList) writeTo(w io.Writer, label string) error {
 	if len(attrs) == 0 {
 		return nil
@@ -43,10 +50,4 @@ func (attrs AttrList) writeTo(w io.Writer, label string) error {
 		}
 	}
 	return nil
-}
-
-type AttrSet struct {
-	Term  AttrList
-	CTerm AttrList
-	GUI   AttrList
 }

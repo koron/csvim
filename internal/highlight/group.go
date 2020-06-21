@@ -22,49 +22,46 @@ type Group struct {
 	GUIFg ColorName
 	GUIBg ColorName
 	GUISp ColorName
+
+	Default bool
 }
 
 func NewGroup(name string) *Group {
 	return &Group{Name: name}
 }
 
-func (g *Group) WithAttrSet(attrSet AttrSet) *Group {
-	g.Term = attrSet.Term
-	g.CTerm = attrSet.CTerm
-	g.GUI = attrSet.GUI
+// Merge merges/includes "groups" into "g" and returns modified "g".
+func (g *Group) Merge(groups ...*Group) *Group {
+	for _, src := range groups {
+		g.Term.merge(src.Term)
+		g.Start.merge(src.Start)
+		g.Stop.merge(src.Stop)
+		g.CTerm.merge(src.CTerm)
+		g.CTermFg.merge(src.CTermFg)
+		g.CTermBg.merge(src.CTermBg)
+		g.GUI.merge(src.GUI)
+		if src.Font != "" {
+			g.Font = src.Font
+		}
+		g.GUIFg.merge(src.GUIFg)
+		g.GUIBg.merge(src.GUIBg)
+		g.GUISp.merge(src.GUISp)
+		if src.Default {
+			g.Default = true
+		}
+	}
 	return g
-}
-
-func (g *Group) WithFg(c Color) *Group {
-	g.CTermFg = c.Nr
-	g.GUIFg = c.Name
-	return g
-}
-
-func (g *Group) WithBg(c Color) *Group {
-	g.CTermBg = c.Nr
-	g.GUIBg = c.Name
-	return g
-}
-
-func (g *Group) WithSp(c Color) *Group {
-	g.GUISp = c.Name
-	return g
-}
-
-func (g *Group) WithColorSet(colorSet ColorSet) *Group {
-	return g.WithFg(colorSet.Fg).WithBg(colorSet.Bg).WithSp(colorSet.Sp)
-}
-
-func (g *Group) WithArguments(args Arguments) *Group {
-	return g.WithAttrSet(args.AttrSet).WithColorSet(args.ColorSet)
 }
 
 func (g *Group) Marshal(w io.Writer) error {
 	if g.Name == "" {
 		return errors.New("highlight with empty Name is not allowed")
 	}
-	fmt.Fprintf(w, "%s %s", Command, g.Name)
+	var defSP string
+	if g.Default {
+		defSP = "default "
+	}
+	fmt.Fprintf(w, "%[1]s %[3]s%[2]s", Command, g.Name, defSP)
 
 	if err := g.Term.writeTo(w, "term"); err != nil {
 		return err
