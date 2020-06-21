@@ -10,7 +10,7 @@ import (
 
 func main() {
 	colorscheme.WarnDefaultGroups = true
-	cs := colorscheme.New("blackandwhite").WithBackground(colorscheme.Light)
+	cs := colorscheme.New("monochromenote").WithBackground(colorscheme.Light)
 
 	var (
 		attrNone   = highlight.AttrList{highlight.None}

@@ -13,7 +13,7 @@ if has('gui_running')
   set columns=165
 endif
 
-so blackandwhite.vim
+so monochromenote.vim
 so $VIMRUNTIME/syntax/hitest.vim
-rightb vsp blackandwhite.vim
+rightb vsp monochromenote.vim
 set nowrap number cursorline cursorcolumn
