@@ -3,7 +3,7 @@ scriptencoding utf-8
 
 syntax on
 set foldcolumn=2
-set conceallevel=1 listchars+=conceal:~
+set conceallevel=1 listchars+=conceal:*
 
 if has('gui_running')
   set gfn=Cica:h10.5
