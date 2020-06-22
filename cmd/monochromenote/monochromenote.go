@@ -154,15 +154,15 @@ func main() {
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
 	}))
 
-	cs.AddGroup(highlight.NewGroup("TablineFill").WithArguments(highlight.Arguments{
+	cs.AddGroup(highlight.NewGroup("TabLineFill").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Bg: darkFg},
 	}))
-	cs.AddGroup(highlight.NewGroup("Tabline").WithArguments(highlight.Arguments{
+	cs.AddGroup(highlight.NewGroup("TabLine").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: darkBg, Bg: darkFg},
 	}))
-	cs.AddGroup(highlight.NewGroup("TablineSel").WithArguments(highlight.Arguments{
+	cs.AddGroup(highlight.NewGroup("TabLineSel").WithArguments(highlight.Arguments{
 		AttrSet:  boldAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
 	}))
