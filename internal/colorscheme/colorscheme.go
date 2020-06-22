@@ -84,6 +84,7 @@ func (cs *ColorScheme) removeLink(name string) bool {
 	return true
 }
 
+// AddGroup adds a Group to colorscheme.
 func (cs *ColorScheme) AddGroup(g *highlight.Group) error {
 	if g.Name == "" {
 		return errors.New("group should have name")
@@ -101,6 +102,18 @@ func (cs *ColorScheme) AddGroup(g *highlight.Group) error {
 	return nil
 }
 
+// Group adds a Group with name and return it. This will panic when invalid
+// name is passed.
+func (cs *ColorScheme) Group(name string) *highlight.Group {
+	g := highlight.NewGroup(name)
+	err := cs.AddGroup(g)
+	if err != nil {
+		panic("failed to add a group: " + err.Error())
+	}
+	return g
+}
+
+// AddLink adds a Link to colorscheme.
 func (cs *ColorScheme) AddLink(l *highlight.Link) error {
 	if l.From == "" || l.From == highlight.Normal {
 		return errors.New("link should have name and it isn't \"Normal\"")
@@ -112,6 +125,17 @@ func (cs *ColorScheme) AddLink(l *highlight.Link) error {
 	cs.linkIdx[l.From] = len(cs.links)
 	cs.links = append(cs.links, l)
 	return nil
+}
+
+// Link adds a Link with names ("from" and "to") and return it. This will panic
+// when invalid name is passed.
+func (cs *ColorScheme) Link(from, to string) *highlight.Link {
+	ln := highlight.NewLink(from, to)
+	err := cs.AddLink(ln)
+	if err != nil {
+		panic("failed to add a link: " + err.Error())
+	}
+	return ln
 }
 
 // Has checks color scheme has a group with the name.

@@ -17,8 +17,13 @@ func NewLink(from, to string) *Link {
 	return &Link{From: from, To: to}
 }
 
+func (ln *Link) WithTo(to string) *Link {
+	ln.To = to
+	return ln
+}
+
 func (ln *Link) Marshal(w io.Writer) error {
-	if ln.From == "" || len(ln.To) == 0 {
+	if ln.From == "" || ln.To == "" {
 		return errors.New("link with empty From or To is not allowed")
 	}
 	var defSP string

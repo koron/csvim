@@ -90,32 +90,33 @@ func main() {
 		scrollThumbC = Color{Nr: "White", Name: "gray90"}
 	)
 
-	cs.AddGroup(highlight.NewGroup("Normal").WithArguments(baseArgs))
-	cs.AddGroup(highlight.NewGroup("NonText").WithArguments(highlight.Arguments{
+	cs.Group("Normal").WithArguments(baseArgs)
+
+	cs.Group("NonText").WithArguments(highlight.Arguments{
 		AttrSet:  boldAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("Terminal").WithArguments(highlight.Arguments{
+	})
+	cs.Group("Terminal").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: baseBg, Bg: baseFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("FoldColumn").WithArguments(foldColArgs))
-	cs.AddGroup(highlight.NewGroup("SignColumn").WithArguments(foldColArgs))
+	})
+	cs.Group("FoldColumn").WithArguments(foldColArgs)
+	cs.Group("SignColumn").WithArguments(foldColArgs)
 
-	cs.AddGroup(highlight.NewGroup("StatusLine").WithColorSet(statusCS).WithAttrSet(boldAS))
-	cs.AddGroup(highlight.NewGroup("StatusLineNC").WithColorSet(statusNCCS).WithAttrSet(baseAS))
-	cs.AddGroup(highlight.NewGroup("VertSplit").WithColorSet(vertSplitCS).WithAttrSet(baseAS))
-	cs.AddGroup(highlight.NewGroup("StatusLineTerm").WithAttrSet(boldAS).WithColorSet(statusTermCS))
-	cs.AddGroup(highlight.NewGroup("StatusLineTermNC").WithAttrSet(boldAS).WithColorSet(statusTermNCCS))
+	cs.Group("StatusLine").WithColorSet(statusCS).WithAttrSet(boldAS)
+	cs.Group("StatusLineNC").WithColorSet(statusNCCS).WithAttrSet(baseAS)
+	cs.Group("VertSplit").WithColorSet(vertSplitCS).WithAttrSet(baseAS)
+	cs.Group("StatusLineTerm").WithAttrSet(boldAS).WithColorSet(statusTermCS)
+	cs.Group("StatusLineTermNC").WithAttrSet(boldAS).WithColorSet(statusTermNCCS)
 
-	cs.AddGroup(highlight.NewGroup("Cursor").WithColorSet(baseCS).WithAttrSet(revAS))
-	cs.AddGroup(highlight.NewGroup("CursorColumn").WithArguments(subCurArgs))
-	cs.AddGroup(highlight.NewGroup("CursorLine").WithArguments(subCurArgs))
-	cs.AddGroup(highlight.NewGroup("ColorColumn").WithArguments(subCurArgs))
-	cs.AddGroup(highlight.NewGroup("MatchParen").WithArguments(highlight.Arguments{
+	cs.Group("Cursor").WithColorSet(baseCS).WithAttrSet(revAS)
+	cs.Group("CursorColumn").WithArguments(subCurArgs)
+	cs.Group("CursorLine").WithArguments(subCurArgs)
+	cs.Group("ColorColumn").WithArguments(subCurArgs)
+	cs.Group("MatchParen").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: lightFg},
-	}))
+	})
 
 	extraCursorArgs := highlight.Arguments{
 		AttrSet: revAS,
@@ -124,115 +125,115 @@ func main() {
 			Bg: Color{Nr: "DarkGray", Name: "gray25"},
 		},
 	}
-	cs.AddGroup(highlight.NewGroup("lCursor").WithArguments(extraCursorArgs))
-	cs.AddGroup(highlight.NewGroup("CursorIM").WithArguments(extraCursorArgs))
+	cs.Group("lCursor").WithArguments(extraCursorArgs)
+	cs.Group("CursorIM").WithArguments(extraCursorArgs)
 
-	cs.AddGroup(highlight.NewGroup("LineNr").WithArguments(lightArgs))
-	cs.AddGroup(highlight.NewGroup("CursorLineNr").WithColorSet(lightCS).WithAttrSet(boldAS))
-	cs.AddGroup(highlight.NewGroup("Search").WithArguments(darkAccent2Args))
-	cs.AddLink(highlight.NewLink("IncSearch", "Cursor"))
+	cs.Group("LineNr").WithArguments(lightArgs)
+	cs.Group("CursorLineNr").WithColorSet(lightCS).WithAttrSet(boldAS)
+	cs.Group("Search").WithArguments(darkAccent2Args)
+	cs.Link("IncSearch", "Cursor")
 
-	cs.AddGroup(highlight.NewGroup("WildMenu").WithArguments(extraCursorArgs))
+	cs.Group("WildMenu").WithArguments(extraCursorArgs)
 
-	cs.AddGroup(highlight.NewGroup("Folded").WithArguments(lightArgs))
-	cs.AddGroup(highlight.NewGroup("Question").WithArguments(lightArgs))
-	cs.AddGroup(highlight.NewGroup("Title").WithArguments(lightBoldArgs))
-	cs.AddGroup(highlight.NewGroup("Conceal").WithArguments(lightArgs))
-	cs.AddGroup(highlight.NewGroup("SpecialKey").WithArguments(lightArgs))
+	cs.Group("Folded").WithArguments(lightArgs)
+	cs.Group("Question").WithArguments(lightArgs)
+	cs.Group("Title").WithArguments(lightBoldArgs)
+	cs.Group("Conceal").WithArguments(lightArgs)
+	cs.Group("SpecialKey").WithArguments(lightArgs)
 
 	visualBg := Color{Nr: "LightGray", Name: "gray85"}
-	cs.AddGroup(&highlight.Group{Name: "Visual", Term: attrRev, CTerm: attrRev, GUIBg: visualBg.Name})
-	cs.AddGroup((&highlight.Group{Name: "VisualNOS", GUIBg: visualBg.Name}).WithAttrSet(boldULAS))
+	cs.Group("Visual").WithTerm(attrRev).WithCTerm(attrRev).WithGUIBg(visualBg)
+	cs.Group("VisualNOS").WithGUIBg(visualBg).WithAttrSet(boldULAS)
 
-	cs.AddGroup(highlight.NewGroup("Directory").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("ErrorMsg").WithArguments(darkAccent1Args))
-	cs.AddGroup(highlight.NewGroup("ModeMsg").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("MoreMsg").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("WarningMsg").WithArguments(lightBoldArgs))
+	cs.Group("Directory").WithArguments(semiBoldArgs)
+	cs.Group("ErrorMsg").WithArguments(darkAccent1Args)
+	cs.Group("ModeMsg").WithArguments(semiBoldArgs)
+	cs.Group("MoreMsg").WithArguments(semiBoldArgs)
+	cs.Group("WarningMsg").WithArguments(lightBoldArgs)
 
-	cs.AddGroup(highlight.NewGroup("DiffAdd").WithArguments(highlight.Arguments{
+	cs.Group("DiffAdd").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: lightBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("DiffDelete").WithArguments(highlight.Arguments{
+	})
+	cs.Group("DiffDelete").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: lightBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("DiffChange").WithArguments(highlight.Arguments{
+	})
+	cs.Group("DiffChange").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("DiffText").WithArguments(highlight.Arguments{
+	})
+	cs.Group("DiffText").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	}))
+	})
 
-	cs.AddGroup(highlight.NewGroup("TabLineFill").WithArguments(highlight.Arguments{
+	cs.Group("TabLineFill").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Bg: darkFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("TabLine").WithArguments(highlight.Arguments{
+	})
+	cs.Group("TabLine").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: darkBg, Bg: darkFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("TabLineSel").WithArguments(highlight.Arguments{
+	})
+	cs.Group("TabLineSel").WithArguments(highlight.Arguments{
 		AttrSet:  boldAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	}))
+	})
 
-	cs.AddGroup(highlight.NewGroup("Pmenu").WithArguments(highlight.Arguments{
+	cs.Group("Pmenu").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("PmenuSel").WithArguments(highlight.Arguments{
+	})
+	cs.Group("PmenuSel").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	}))
-	cs.AddGroup(highlight.NewGroup("PmenuSbar").WithArguments(highlight.Arguments{
+	})
+	cs.Group("PmenuSbar").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Bg: scrollBarC},
-	}))
-	cs.AddGroup(highlight.NewGroup("PmenuThumb").WithArguments(highlight.Arguments{
+	})
+	cs.Group("PmenuThumb").WithArguments(highlight.Arguments{
 		AttrSet:  baseAS,
 		ColorSet: highlight.ColorSet{Bg: scrollThumbC},
-	}))
+	})
 
-	cs.AddGroup(highlight.NewGroup("SpellBad").WithArguments(highlight.Arguments{
+	cs.Group("SpellBad").WithArguments(highlight.Arguments{
 		AttrSet:  ucAS,
 		ColorSet: highlight.ColorSet{Sp: lightFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("SpellCap").WithArguments(highlight.Arguments{
+	})
+	cs.Group("SpellCap").WithArguments(highlight.Arguments{
 		AttrSet:  ucAS,
 		ColorSet: highlight.ColorSet{Sp: baseFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("SpellRare").WithArguments(highlight.Arguments{
+	})
+	cs.Group("SpellRare").WithArguments(highlight.Arguments{
 		AttrSet:  ucAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Sp: lightFg},
-	}))
-	cs.AddGroup(highlight.NewGroup("SpellLocal").WithArguments(highlight.Arguments{
+	})
+	cs.Group("SpellLocal").WithArguments(highlight.Arguments{
 		AttrSet:  ucAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Sp: baseFg},
-	}))
+	})
 
 	// custom groups
 
-	cs.AddGroup(highlight.NewGroup("Comment").WithArguments(lightArgs))
-	cs.AddGroup(highlight.NewGroup("Statement").WithColorSet(baseCS).WithAttrSet(boldAS))
-	cs.AddGroup(highlight.NewGroup("Type").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("PreProc").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("Identifier").WithArguments(semiBoldArgs))
-	cs.AddGroup(highlight.NewGroup("Special").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: darkFg, Bg: lightBg}))
-	cs.AddGroup(highlight.NewGroup("Constant").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: baseFg, Bg: lightBg}))
-	cs.AddGroup(highlight.NewGroup("Error").WithArguments(darkAccent1Args))
-	cs.AddGroup(highlight.NewGroup("Underlined").WithArguments(highlight.Arguments{AttrSet: ulAS, ColorSet: baseCS}))
+	cs.Group("Comment").WithArguments(lightArgs)
+	cs.Group("Statement").WithColorSet(baseCS).WithAttrSet(boldAS)
+	cs.Group("Type").WithArguments(semiBoldArgs)
+	cs.Group("PreProc").WithArguments(semiBoldArgs)
+	cs.Group("Identifier").WithArguments(semiBoldArgs)
+	cs.Group("Special").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: darkFg, Bg: lightBg})
+	cs.Group("Constant").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: baseFg, Bg: lightBg})
+	cs.Group("Error").WithArguments(darkAccent1Args)
+	cs.Group("Underlined").WithArguments(highlight.Arguments{AttrSet: ulAS, ColorSet: baseCS})
 
-	cs.AddGroup(highlight.NewGroup("Todo").WithArguments(highlight.Arguments{
+	cs.Group("Todo").WithArguments(highlight.Arguments{
 		AttrSet: baseAS,
 		ColorSet: highlight.ColorSet{
 			Fg: Color{Nr: "LightGray", Name: "gray90"},
 			Bg: Color{Nr: "DarkGray", Name: "gray50"},
 		},
-	}))
+	})
 
 	if err := cs.Marshal(os.Stdout); err != nil {
 		log.Fatal(err)
