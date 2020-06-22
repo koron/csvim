@@ -18,25 +18,8 @@ func (g *Group) WithAttrSet(attrSet AttrSet) *Group {
 	return g
 }
 
-func (g *Group) WithFg(c Color) *Group {
-	g.CTermFg = c.Nr
-	g.GUIFg = c.Name
-	return g
-}
-
-func (g *Group) WithBg(c Color) *Group {
-	g.CTermBg = c.Nr
-	g.GUIBg = c.Name
-	return g
-}
-
-func (g *Group) WithSp(c Color) *Group {
-	g.GUISp = c.Name
-	return g
-}
-
 func (g *Group) WithColorSet(colorSet ColorSet) *Group {
-	return g.WithFg(colorSet.Fg).WithBg(colorSet.Bg).WithSp(colorSet.Sp)
+	return g.WithFg(colorSet.Fg).WithBg(colorSet.Bg).WithGUISp(colorSet.Sp)
 }
 
 func (g *Group) WithArguments(args Arguments) *Group {
@@ -47,9 +30,4 @@ type ColorSet struct {
 	Fg Color
 	Bg Color
 	Sp Color
-}
-
-type Color struct {
-	Nr   ColorNr
-	Name ColorName
 }

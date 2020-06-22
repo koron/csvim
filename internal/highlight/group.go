@@ -31,28 +31,81 @@ func NewGroup(name string) *Group {
 }
 
 func (g *Group) WithTerm(src AttrList) *Group {
-	g.Term.merge(src)
-	return g
-}
-
-func (g *Group) WithStart(src TermList) *Group {
-	g.Start.merge(src)
-	return g
-}
-
-func (g *Group) WithStop(src TermList) *Group {
-	g.Stop.merge(src)
+	g.Term = src
 	return g
 }
 
 func (g *Group) WithCTerm(src AttrList) *Group {
-	g.CTerm.merge(src)
+	g.CTerm = src
 	return g
 }
 
 func (g *Group) WithGUI(src AttrList) *Group {
-	g.GUI.merge(src)
+	g.GUI = src
 	return g
+}
+
+func (g *Group) WithStart(src TermList) *Group {
+	g.Start = src
+	return g
+}
+
+func (g *Group) WithStop(src TermList) *Group {
+	g.Stop = src
+	return g
+}
+
+func (g *Group) WithCTermFg(c TermColor) *Group {
+	if c == nil {
+		g.CTermFg = ""
+		return g
+	}
+	g.CTermFg = c.TermColor()
+	return g
+}
+
+func (g *Group) WithCTermBg(c TermColor) *Group {
+	if c == nil {
+		g.CTermBg = ""
+		return g
+	}
+	g.CTermBg = c.TermColor()
+	return g
+}
+
+func (g *Group) WithGUIFg(c GUIColor) *Group {
+	if c == nil {
+		g.GUIFg = ""
+		return g
+	}
+	g.GUIFg = c.GUIColor()
+	return g
+}
+
+func (g *Group) WithGUIBg(c GUIColor) *Group {
+	if c == nil {
+		g.GUIBg = ""
+		return g
+	}
+	g.GUIBg = c.GUIColor()
+	return g
+}
+
+func (g *Group) WithGUISp(c GUIColor) *Group {
+	if c == nil {
+		g.GUISp = ""
+		return g
+	}
+	g.GUISp = c.GUIColor()
+	return g
+}
+
+func (g *Group) WithFg(c Color) *Group {
+	return g.WithCTermFg(c).WithGUIFg(c)
+}
+
+func (g *Group) WithBg(c Color) *Group {
+	return g.WithCTermBg(c).WithGUIBg(c)
 }
 
 // Merge merges/includes "groups" into "g" and returns modified "g".
@@ -75,6 +128,31 @@ func (g *Group) Merge(groups ...*Group) *Group {
 			g.Default = true
 		}
 	}
+	return g
+}
+
+func (g *Group) MergeTerm(src AttrList) *Group {
+	g.Term.merge(src)
+	return g
+}
+
+func (g *Group) MergeCTerm(src AttrList) *Group {
+	g.CTerm.merge(src)
+	return g
+}
+
+func (g *Group) MergeGUI(src AttrList) *Group {
+	g.GUI.merge(src)
+	return g
+}
+
+func (g *Group) MergeStart(src TermList) *Group {
+	g.Start.merge(src)
+	return g
+}
+
+func (g *Group) MergeStop(src TermList) *Group {
+	g.Stop.merge(src)
 	return g
 }
 

@@ -8,6 +8,19 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
+type Color struct {
+	Nr   highlight.ColorNr
+	Name highlight.ColorName
+}
+
+func (c Color) TermColor() highlight.ColorNr {
+	return c.Nr
+}
+
+func (c Color) GUIColor() highlight.ColorName {
+	return c.Name
+}
+
 func main() {
 	colorscheme.WarnDefaultGroups = true
 	cs := colorscheme.New("monochromenote").WithBackground(colorscheme.Light)
@@ -27,23 +40,23 @@ func main() {
 		ulAS     = highlight.AttrSet{Term: attrUL, GUI: attrUL}
 		boldULAS = highlight.AttrSet{Term: attrBoldUL, CTerm: attrBoldUL, GUI: attrBoldUL}
 
-		baseFg   = highlight.Color{Nr: "Black", Name: "gray25"}
-		baseBg   = highlight.Color{Nr: "DarkGray", Name: "gray70"}
+		baseFg   = Color{Nr: "Black", Name: "gray25"}
+		baseBg   = Color{Nr: "DarkGray", Name: "gray70"}
 		baseCS   = highlight.ColorSet{Fg: baseFg, Bg: baseBg}
 		baseArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: baseCS}
 
-		lightFg   = highlight.Color{Nr: "LightGray", Name: "gray90"}
-		lightBg   = highlight.Color{Nr: "LightGray", Name: "gray80"}
+		lightFg   = Color{Nr: "LightGray", Name: "gray90"}
+		lightBg   = Color{Nr: "LightGray", Name: "gray80"}
 		lightCS   = highlight.ColorSet{Fg: lightFg, Bg: baseBg}
 		lightArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: lightCS}
 
-		darkFg = highlight.Color{Nr: "Black", Name: "gray10"}
-		darkBg = highlight.Color{Nr: "DarkGray", Name: "gray60"}
-		darkCS = highlight.ColorSet{Fg: baseFg, Bg: highlight.Color{Nr: "DarkGray", Name: "gray50"}}
+		darkFg = Color{Nr: "Black", Name: "gray10"}
+		darkBg = Color{Nr: "DarkGray", Name: "gray60"}
+		darkCS = highlight.ColorSet{Fg: baseFg, Bg: Color{Nr: "DarkGray", Name: "gray50"}}
 
 		foldColArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: darkCS}
 
-		termBgC = highlight.Color{Nr: "Black", Name: "gray40"}
+		termBgC = Color{Nr: "Black", Name: "gray40"}
 
 		statusCS       = highlight.ColorSet{Fg: lightFg, Bg: baseFg}
 		statusNCCS     = highlight.ColorSet{Fg: baseBg, Bg: baseFg}
@@ -60,21 +73,21 @@ func main() {
 		darkAccent1Args = highlight.Arguments{
 			AttrSet: baseAS,
 			ColorSet: highlight.ColorSet{
-				Fg: highlight.Color{Nr: "LightGray", Name: "gray90"},
-				Bg: highlight.Color{Nr: "DarkGray", Name: "gray10"},
+				Fg: Color{Nr: "LightGray", Name: "gray90"},
+				Bg: Color{Nr: "DarkGray", Name: "gray10"},
 			},
 		}
 		darkAccent2Args = highlight.Arguments{
 			AttrSet: baseAS,
 			ColorSet: highlight.ColorSet{
-				Fg: highlight.Color{Nr: "LightGray", Name: "gray80"},
-				Bg: highlight.Color{Nr: "DarkGray", Name: "gray50"},
+				Fg: Color{Nr: "LightGray", Name: "gray80"},
+				Bg: Color{Nr: "DarkGray", Name: "gray50"},
 			},
 		}
 		lightBoldArgs = highlight.Arguments{AttrSet: boldAS, ColorSet: lightCS}
 
-		scrollBarC   = highlight.Color{Nr: "Black", Name: "gray40"}
-		scrollThumbC = highlight.Color{Nr: "White", Name: "gray90"}
+		scrollBarC   = Color{Nr: "Black", Name: "gray40"}
+		scrollThumbC = Color{Nr: "White", Name: "gray90"}
 	)
 
 	cs.AddGroup(highlight.NewGroup("Normal").WithArguments(baseArgs))
@@ -107,8 +120,8 @@ func main() {
 	extraCursorArgs := highlight.Arguments{
 		AttrSet: revAS,
 		ColorSet: highlight.ColorSet{
-			Fg: highlight.Color{Nr: "White", Name: "white"},
-			Bg: highlight.Color{Nr: "DarkGray", Name: "gray25"},
+			Fg: Color{Nr: "White", Name: "white"},
+			Bg: Color{Nr: "DarkGray", Name: "gray25"},
 		},
 	}
 	cs.AddGroup(highlight.NewGroup("lCursor").WithArguments(extraCursorArgs))
@@ -127,7 +140,7 @@ func main() {
 	cs.AddGroup(highlight.NewGroup("Conceal").WithArguments(lightArgs))
 	cs.AddGroup(highlight.NewGroup("SpecialKey").WithArguments(lightArgs))
 
-	visualBg := highlight.Color{Nr: "LightGray", Name: "gray85"}
+	visualBg := Color{Nr: "LightGray", Name: "gray85"}
 	cs.AddGroup(&highlight.Group{Name: "Visual", Term: attrRev, CTerm: attrRev, GUIBg: visualBg.Name})
 	cs.AddGroup((&highlight.Group{Name: "VisualNOS", GUIBg: visualBg.Name}).WithAttrSet(boldULAS))
 
@@ -216,8 +229,8 @@ func main() {
 	cs.AddGroup(highlight.NewGroup("Todo").WithArguments(highlight.Arguments{
 		AttrSet: baseAS,
 		ColorSet: highlight.ColorSet{
-			Fg: highlight.Color{Nr: "LightGray", Name: "gray90"},
-			Bg: highlight.Color{Nr: "DarkGray", Name: "gray50"},
+			Fg: Color{Nr: "LightGray", Name: "gray90"},
+			Bg: Color{Nr: "DarkGray", Name: "gray50"},
 		},
 	}))
 

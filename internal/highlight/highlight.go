@@ -114,9 +114,10 @@ var DefaultGroupNames = []string{
 	LCursor,
 }
 
-var defaultGroups = map[string]struct{}{}
+var defaultGroups map[string]struct{}
 
 func init() {
+	defaultGroups = make(map[string]struct{}, len(DefaultGroupNames))
 	for _, g := range DefaultGroupNames {
 		defaultGroups[g] = struct{}{}
 	}

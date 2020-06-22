@@ -5,10 +5,23 @@ import (
 	"io"
 )
 
+type TermColor interface {
+	TermColor() ColorNr
+}
+
+type GUIColor interface {
+	GUIColor() ColorName
+}
+
+type Color interface {
+	TermColor
+	GUIColor
+}
+
 type ColorNr string
 
-func (cn ColorNr) String() string {
-	return string(cn)
+func (cn ColorNr) TermColor() ColorNr {
+	return cn
 }
 
 func (cn ColorNr) isValid() bool {
@@ -19,7 +32,7 @@ func (cn ColorNr) writeTo(w io.Writer, label string) error {
 	if !cn.isValid() {
 		return nil
 	}
-	_, err := fmt.Fprintf(w, " %s=%s", label, cn.String())
+	_, err := fmt.Fprintf(w, " %s=%s", label, cn)
 	return err
 }
 
@@ -31,8 +44,8 @@ func (cn *ColorNr) merge(src ColorNr) {
 
 type ColorName string
 
-func (cn ColorName) String() string {
-	return string(cn)
+func (cn ColorName) GUIColor() ColorName {
+	return cn
 }
 
 func (cn ColorName) isValid() bool {
@@ -49,6 +62,6 @@ func (cn ColorName) writeTo(w io.Writer, label string) error {
 	if !cn.isValid() {
 		return nil
 	}
-	_, err := fmt.Fprintf(w, " %s=%s", label, cn.String())
+	_, err := fmt.Fprintf(w, " %s=%s", label, cn)
 	return err
 }
