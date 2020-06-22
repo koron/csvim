@@ -82,6 +82,10 @@ func main() {
 		AttrSet:  boldAS,
 		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
 	}))
+	cs.AddGroup(highlight.NewGroup("Terminal").WithArguments(highlight.Arguments{
+		AttrSet:  baseAS,
+		ColorSet: highlight.ColorSet{Fg: baseBg, Bg: baseFg},
+	}))
 	cs.AddGroup(highlight.NewGroup("FoldColumn").WithArguments(foldColArgs))
 	cs.AddGroup(highlight.NewGroup("SignColumn").WithArguments(foldColArgs))
 
