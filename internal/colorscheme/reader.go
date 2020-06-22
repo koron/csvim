@@ -11,6 +11,7 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
+// ReadFile reads a Vim's colorscheme file.
 func ReadFile(name string) (*ColorScheme, error) {
 	f, err := os.Open(name)
 	if err != nil {
@@ -26,6 +27,7 @@ var (
 	rxWS   = regexp.MustCompile(`\s+`)
 )
 
+// Read reads a Vim's colorscheme from io.Reader.
 func Read(rd io.Reader) (*ColorScheme, error) {
 	cs := new(ColorScheme)
 	r := bufio.NewReader(rd)

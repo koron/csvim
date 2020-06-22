@@ -8,12 +8,18 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
+// WarnDefaultGroups is a flag to list up unused default highlight groups on
+// Marshal().
 var WarnDefaultGroups bool
 
+// Background is value for 'background' option of vim.
 type Background string
 
 const (
-	Dark  Background = "dark"
+	// Dark is constant "dark" for Background.
+	Dark Background = "dark"
+
+	// Light is constant "light" for Background.
 	Light Background = "light"
 )
 
@@ -45,6 +51,7 @@ func (ls links) marshal(w io.Writer) error {
 	return nil
 }
 
+// ColorScheme is a type for Vim's colorscheme.
 type ColorScheme struct {
 	Name       string
 	Background Background
@@ -57,10 +64,12 @@ type ColorScheme struct {
 	links   links
 }
 
+// New creates a new ColorScheme.
 func New(name string) *ColorScheme {
 	return &ColorScheme{Name: name}
 }
 
+// WithBackground sets Background.
 func (cs *ColorScheme) WithBackground(bg Background) *ColorScheme {
 	cs.Background = bg
 	return cs
@@ -150,6 +159,7 @@ func (cs *ColorScheme) Has(name string) bool {
 	return ok
 }
 
+// Marshal writes down Vim's colorscheme script to io.Writer.
 func (cs *ColorScheme) Marshal(w io.Writer) error {
 	bg := cs.Background
 	if bg == "" {
