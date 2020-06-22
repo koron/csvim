@@ -8,19 +8,6 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
-type Color struct {
-	Nr   highlight.ColorNr
-	Name highlight.ColorName
-}
-
-func (c Color) TermColor() highlight.ColorNr {
-	return c.Nr
-}
-
-func (c Color) GUIColor() highlight.ColorName {
-	return c.Name
-}
-
 func main() {
 	colorscheme.WarnDefaultGroups = true
 	cs := colorscheme.New("monochromenote").WithBackground(colorscheme.Light)
@@ -40,10 +27,9 @@ func main() {
 		ulAS     = highlight.AttrSet{Term: attrUL, GUI: attrUL}
 		boldULAS = highlight.AttrSet{Term: attrBoldUL, CTerm: attrBoldUL, GUI: attrBoldUL}
 
-		baseFg   = Color{Nr: "Black", Name: "gray25"}
-		baseBg   = Color{Nr: "DarkGray", Name: "gray70"}
-		baseCS   = highlight.ColorSet{Fg: baseFg, Bg: baseBg}
-		baseArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: baseCS}
+		baseFg = Color{Nr: "Black", Name: "gray25"}
+		baseBg = Color{Nr: "DarkGray", Name: "gray70"}
+		baseCS = highlight.ColorSet{Fg: baseFg, Bg: baseBg}
 
 		lightFg   = Color{Nr: "LightGray", Name: "gray90"}
 		lightBg   = Color{Nr: "LightGray", Name: "gray80"}
@@ -52,20 +38,6 @@ func main() {
 
 		darkFg = Color{Nr: "Black", Name: "gray10"}
 		darkBg = Color{Nr: "DarkGray", Name: "gray60"}
-		darkCS = highlight.ColorSet{Fg: baseFg, Bg: Color{Nr: "DarkGray", Name: "gray50"}}
-
-		foldColArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: darkCS}
-
-		termBgC = Color{Nr: "Black", Name: "gray40"}
-
-		statusCS       = highlight.ColorSet{Fg: lightFg, Bg: baseFg}
-		statusNCCS     = highlight.ColorSet{Fg: baseBg, Bg: baseFg}
-		statusTermCS   = highlight.ColorSet{Fg: lightFg, Bg: termBgC}
-		statusTermNCCS = highlight.ColorSet{Fg: baseBg, Bg: termBgC}
-		vertSplitCS    = highlight.ColorSet{Fg: darkFg, Bg: baseFg}
-
-		subCurCS   = highlight.ColorSet{Fg: baseFg, Bg: lightBg}
-		subCurArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: subCurCS}
 
 		semiBoldCS   = highlight.ColorSet{Fg: darkFg, Bg: baseBg}
 		semiBoldArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: semiBoldCS}
@@ -90,34 +62,26 @@ func main() {
 		scrollThumbC = Color{Nr: "White", Name: "gray90"}
 	)
 
-	cs.Group("Normal").WithArguments(baseArgs)
+	cs.Group("Normal").Apply(normalColors)
 
-	cs.Group("NonText").WithArguments(highlight.Arguments{
-		AttrSet:  boldAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	})
-	cs.Group("Terminal").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: baseBg, Bg: baseFg},
-	})
-	cs.Group("FoldColumn").WithArguments(foldColArgs)
-	cs.Group("SignColumn").WithArguments(foldColArgs)
+	cs.Group("NonText").Apply(nonTextColors, bold)
+	cs.Group("Terminal").Apply(terminalColors)
+	cs.Group("FoldColumn").Apply(foldColumnColors)
+	cs.Group("SignColumn").Apply(foldColumnColors)
 
-	cs.Group("StatusLine").WithColorSet(statusCS).WithAttrSet(boldAS)
-	cs.Group("StatusLineNC").WithColorSet(statusNCCS).WithAttrSet(baseAS)
-	cs.Group("VertSplit").WithColorSet(vertSplitCS).WithAttrSet(baseAS)
-	cs.Group("StatusLineTerm").WithAttrSet(boldAS).WithColorSet(statusTermCS)
-	cs.Group("StatusLineTermNC").WithAttrSet(boldAS).WithColorSet(statusTermNCCS)
+	cs.Group("StatusLine").Apply(statusLineColors, bold)
+	cs.Group("StatusLineNC").Apply(statusLineNCColors, none)
+	cs.Group("VertSplit").Apply(vertSplitColors, none)
+	cs.Group("StatusLineTerm").Apply(statusLineTermColors, bold)
+	cs.Group("StatusLineTermNC").Apply(statusLineTermNCColors, none)
 
-	cs.Group("Cursor").WithColorSet(baseCS).WithAttrSet(revAS)
-	cs.Group("CursorColumn").WithArguments(subCurArgs)
-	cs.Group("CursorLine").WithArguments(subCurArgs)
-	cs.Group("ColorColumn").WithArguments(subCurArgs)
-	cs.Group("MatchParen").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: lightFg},
-	})
+	cs.Group("Cursor").Apply(normalColors, reverse)
+	cs.Group("CursorColumn").Apply(subCursorColors, none)
+	cs.Group("CursorLine").Apply(subCursorColors, none)
+	cs.Group("ColorColumn").Apply(subCursorColors, none)
+	cs.Group("MatchParen").Apply(matchParenColors)
 
+	// TODO:
 	extraCursorArgs := highlight.Arguments{
 		AttrSet: revAS,
 		ColorSet: highlight.ColorSet{
