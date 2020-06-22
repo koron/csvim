@@ -22,7 +22,6 @@ func main() {
 
 		baseAS   = highlight.AttrSet{Term: attrNone, GUI: attrNone}
 		boldAS   = highlight.AttrSet{Term: attrBold, GUI: attrBold}
-		revAS    = highlight.AttrSet{Term: attrRev, GUI: attrRev}
 		ucAS     = highlight.AttrSet{Term: attrUL, GUI: attrUC}
 		ulAS     = highlight.AttrSet{Term: attrUL, GUI: attrUL}
 		boldULAS = highlight.AttrSet{Term: attrBoldUL, CTerm: attrBoldUL, GUI: attrBoldUL}
@@ -34,7 +33,6 @@ func main() {
 		lightFg   = Color{Nr: "LightGray", Name: "gray90"}
 		lightBg   = Color{Nr: "LightGray", Name: "gray80"}
 		lightCS   = highlight.ColorSet{Fg: lightFg, Bg: baseBg}
-		lightArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: lightCS}
 
 		darkFg = Color{Nr: "Black", Name: "gray10"}
 		darkBg = Color{Nr: "DarkGray", Name: "gray60"}
@@ -47,13 +45,6 @@ func main() {
 			ColorSet: highlight.ColorSet{
 				Fg: Color{Nr: "LightGray", Name: "gray90"},
 				Bg: Color{Nr: "DarkGray", Name: "gray10"},
-			},
-		}
-		darkAccent2Args = highlight.Arguments{
-			AttrSet: baseAS,
-			ColorSet: highlight.ColorSet{
-				Fg: Color{Nr: "LightGray", Name: "gray80"},
-				Bg: Color{Nr: "DarkGray", Name: "gray50"},
 			},
 		}
 		lightBoldArgs = highlight.Arguments{AttrSet: boldAS, ColorSet: lightCS}
@@ -69,6 +60,9 @@ func main() {
 	cs.Group("FoldColumn").Apply(foldColumnColors)
 	cs.Group("SignColumn").Apply(foldColumnColors)
 
+	cs.Group("LineNr").Apply(lineNrColors)
+	cs.Group("CursorLineNr").Apply(lineNrColors, bold)
+
 	cs.Group("StatusLine").Apply(statusLineColors, bold)
 	cs.Group("StatusLineNC").Apply(statusLineNCColors, none)
 	cs.Group("VertSplit").Apply(vertSplitColors, none)
@@ -80,31 +74,21 @@ func main() {
 	cs.Group("CursorLine").Apply(subCursorColors, none)
 	cs.Group("ColorColumn").Apply(subCursorColors, none)
 	cs.Group("MatchParen").Apply(matchParenColors)
+	cs.Group("lCursor").Apply(extraCursorColors, reverse)
+	cs.Group("CursorIM").Apply(extraCursorColors, reverse)
 
-	// TODO:
-	extraCursorArgs := highlight.Arguments{
-		AttrSet: revAS,
-		ColorSet: highlight.ColorSet{
-			Fg: Color{Nr: "White", Name: "white"},
-			Bg: Color{Nr: "DarkGray", Name: "gray25"},
-		},
-	}
-	cs.Group("lCursor").WithArguments(extraCursorArgs)
-	cs.Group("CursorIM").WithArguments(extraCursorArgs)
+	cs.Group("WildMenu").Apply(wildMenuColors, reverse)
 
-	cs.Group("LineNr").WithArguments(lightArgs)
-	cs.Group("CursorLineNr").WithColorSet(lightCS).WithAttrSet(boldAS)
-	cs.Group("Search").WithArguments(darkAccent2Args)
+	cs.Group("Search").Apply(searchColors)
 	cs.Link("IncSearch", "Cursor")
 
-	cs.Group("WildMenu").WithArguments(extraCursorArgs)
+	cs.Group("Folded").Apply(_light)
+	cs.Group("Question").Apply(_light)
+	cs.Group("Title").Apply(_light, bold)
+	cs.Group("Conceal").Apply(_light)
+	cs.Group("SpecialKey").Apply(_light)
 
-	cs.Group("Folded").WithArguments(lightArgs)
-	cs.Group("Question").WithArguments(lightArgs)
-	cs.Group("Title").WithArguments(lightBoldArgs)
-	cs.Group("Conceal").WithArguments(lightArgs)
-	cs.Group("SpecialKey").WithArguments(lightArgs)
-
+	// TODO:
 	visualBg := Color{Nr: "LightGray", Name: "gray85"}
 	cs.Group("Visual").WithTerm(attrRev).WithCTerm(attrRev).WithGUIBg(visualBg)
 	cs.Group("VisualNOS").WithGUIBg(visualBg).WithAttrSet(boldULAS)
@@ -181,7 +165,7 @@ func main() {
 
 	// custom groups
 
-	cs.Group("Comment").WithArguments(lightArgs)
+	cs.Group("Comment").Apply(_light)
 	cs.Group("Statement").WithColorSet(baseCS).WithAttrSet(boldAS)
 	cs.Group("Type").WithArguments(semiBoldArgs)
 	cs.Group("PreProc").WithArguments(semiBoldArgs)

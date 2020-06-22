@@ -42,7 +42,7 @@ var Palette = []Color{
 	Color{Nr: "LightGrey", Name: "grey70"}, // 6: baseBg
 	Color{Nr: "White", Name: "grey80"},     // 7: lightBg
 	Color{Nr: "White", Name: "grey90"},     // 8: lightFg
-	Color{Nr: "White", Name: "grey100"},    // 9:
+	Color{Nr: "White", Name: "grey100"},    // 9: white
 }
 
 var (
@@ -52,10 +52,15 @@ var (
 )
 
 var (
-	normalColors     = colors{fg: Palette[2], bg: Palette[6]}
+	_normal = colors{fg: Palette[2], bg: Palette[6]}
+	_light  = colors{fg: Palette[8], bg: Palette[6]}
+
+	normalColors     = _normal
 	nonTextColors    = colors{fg: Palette[8], bg: Palette[5]}
 	terminalColors   = colors{fg: Palette[6], bg: Palette[2]}
 	foldColumnColors = colors{fg: Palette[2], bg: Palette[4]}
+
+	lineNrColors = colors{fg: Palette[8], bg: Palette[6]}
 
 	statusLineColors       = colors{fg: Palette[8], bg: Palette[2]}
 	statusLineNCColors     = colors{fg: Palette[6], bg: Palette[2]}
@@ -63,6 +68,11 @@ var (
 	statusLineTermColors   = colors{fg: Palette[8], bg: Palette[3]}
 	statusLineTermNCColors = colors{fg: Palette[6], bg: Palette[3]}
 
-	subCursorColors  = colors{fg: Palette[2], bg: Palette[7]}
-	matchParenColors = colors{fg: Palette[2], bg: Palette[8]}
+	subCursorColors   = colors{fg: Palette[2], bg: Palette[7]}
+	matchParenColors  = colors{fg: Palette[2], bg: Palette[8]}
+	extraCursorColors = colors{fg: Palette[9], bg: Palette[2]}
+
+	wildMenuColors = extraCursorColors
+
+	searchColors = colors{fg: Palette[7], bg: Palette[4]}
 )
