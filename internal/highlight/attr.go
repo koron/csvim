@@ -22,6 +22,10 @@ var (
 
 type AttrList []Attr
 
+func (attrs AttrList) ApplyGroup(g *Group) *Group {
+	return g.MergeTerm(attrs).MergeCTerm(attrs).MergeGUI(attrs)
+}
+
 func (attrs *AttrList) merge(src AttrList) {
 	if len(src) == 0 {
 		return
