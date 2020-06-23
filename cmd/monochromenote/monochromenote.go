@@ -17,7 +17,7 @@ var (
 	undercurl = highlight.Undercurl
 )
 
-var Palette = []hlopt.Color{
+var palette = []hlopt.Color{
 	hlopt.Color{Nr: "Black", Name: "grey0"},      // 0:
 	hlopt.Color{Nr: "Black", Name: "grey10"},     // 1: darkFg
 	hlopt.Color{Nr: "DarkGrey", Name: "grey25"},  // 2: baseFg
@@ -32,55 +32,55 @@ var Palette = []hlopt.Color{
 }
 
 var (
-	_normal = hlopt.Colors{Fg: Palette[2], Bg: Palette[6]}
-	_light  = hlopt.Colors{Fg: Palette[9], Bg: Palette[6]}
-	_dark   = hlopt.Colors{Fg: Palette[1], Bg: Palette[6]}
+	_normal = hlopt.Colors{Fg: palette[2], Bg: palette[6]}
+	_light  = hlopt.Colors{Fg: palette[9], Bg: palette[6]}
+	_dark   = hlopt.Colors{Fg: palette[1], Bg: palette[6]}
 
 	normalColors     = _normal
-	nonTextColors    = hlopt.Colors{Fg: Palette[9], Bg: Palette[5]}
-	terminalColors   = hlopt.Colors{Fg: Palette[6], Bg: Palette[2]}
-	foldColumnColors = hlopt.Colors{Fg: Palette[2], Bg: Palette[4]}
+	nonTextColors    = hlopt.Colors{Fg: palette[9], Bg: palette[5]}
+	terminalColors   = hlopt.Colors{Fg: palette[6], Bg: palette[2]}
+	foldColumnColors = hlopt.Colors{Fg: palette[2], Bg: palette[4]}
 
-	lineNrColors = hlopt.Colors{Fg: Palette[9], Bg: Palette[6]}
+	lineNrColors = hlopt.Colors{Fg: palette[9], Bg: palette[6]}
 
-	statusLineColors       = hlopt.Colors{Fg: Palette[9], Bg: Palette[2]}
-	statusLineNCColors     = hlopt.Colors{Fg: Palette[6], Bg: Palette[2]}
-	vertSplitColors        = hlopt.Colors{Fg: Palette[2], Bg: Palette[2]}
-	statusLineTermColors   = hlopt.Colors{Fg: Palette[9], Bg: Palette[3]}
-	statusLineTermNCColors = hlopt.Colors{Fg: Palette[6], Bg: Palette[3]}
+	statusLineColors       = hlopt.Colors{Fg: palette[9], Bg: palette[2]}
+	statusLineNCColors     = hlopt.Colors{Fg: palette[6], Bg: palette[2]}
+	vertSplitColors        = hlopt.Colors{Fg: palette[2], Bg: palette[2]}
+	statusLineTermColors   = hlopt.Colors{Fg: palette[9], Bg: palette[3]}
+	statusLineTermNCColors = hlopt.Colors{Fg: palette[6], Bg: palette[3]}
 
-	subCursorColors   = hlopt.Colors{Fg: Palette[2], Bg: Palette[7]}
-	matchParenColors  = hlopt.Colors{Fg: Palette[2], Bg: Palette[9]}
-	extraCursorColors = hlopt.Colors{Fg: Palette[10], Bg: Palette[2]}
+	subCursorColors   = hlopt.Colors{Fg: palette[2], Bg: palette[7]}
+	matchParenColors  = hlopt.Colors{Fg: palette[2], Bg: palette[9]}
+	extraCursorColors = hlopt.Colors{Fg: palette[10], Bg: palette[2]}
 
 	wildMenuColors   = extraCursorColors
-	searchColors     = hlopt.Colors{Fg: Palette[7], Bg: Palette[4]}
-	visualColor      = Palette[8] // for setting to GUIBg only
-	errorMsgColors   = hlopt.Colors{Fg: Palette[9], Bg: Palette[1]}
-	warningMsgColors = hlopt.Colors{Fg: Palette[9], Bg: Palette[2]}
+	searchColors     = hlopt.Colors{Fg: palette[7], Bg: palette[4]}
+	visualColor      = palette[8] // for setting to GUIBg only
+	errorMsgColors   = hlopt.Colors{Fg: palette[9], Bg: palette[1]}
+	warningMsgColors = hlopt.Colors{Fg: palette[9], Bg: palette[2]}
 
-	diffAddColors    = hlopt.Colors{Fg: Palette[2], Bg: Palette[7]}
-	diffDeleteColors = hlopt.Colors{Fg: Palette[9], Bg: Palette[7]}
-	diffChangeColors = hlopt.Colors{Fg: Palette[9], Bg: Palette[5]}
-	diffTextColors   = hlopt.Colors{Fg: Palette[2], Bg: Palette[5]}
+	diffAddColors    = hlopt.Colors{Fg: palette[2], Bg: palette[7]}
+	diffDeleteColors = hlopt.Colors{Fg: palette[9], Bg: palette[7]}
+	diffChangeColors = hlopt.Colors{Fg: palette[9], Bg: palette[5]}
+	diffTextColors   = hlopt.Colors{Fg: palette[2], Bg: palette[5]}
 
-	tabLineFillColors = hlopt.Colors{Bg: Palette[1]}
-	tabLineColors     = hlopt.Colors{Fg: Palette[5], Bg: Palette[1]}
-	tabLineSelColors  = hlopt.Colors{Fg: Palette[2], Bg: Palette[5]}
+	tabLineFillColors = hlopt.Colors{Bg: palette[1]}
+	tabLineColors     = hlopt.Colors{Fg: palette[5], Bg: palette[1]}
+	tabLineSelColors  = hlopt.Colors{Fg: palette[2], Bg: palette[5]}
 
-	pMenuColors      = hlopt.Colors{Fg: Palette[2], Bg: Palette[5]}
-	pMenuSelColors   = hlopt.Colors{Fg: Palette[9], Bg: Palette[5]}
-	pMenuSbarColors  = hlopt.Colors{Bg: Palette[3]}
-	pMenuThumbColors = hlopt.Colors{Bg: Palette[9]}
+	pMenuColors      = hlopt.Colors{Fg: palette[2], Bg: palette[5]}
+	pMenuSelColors   = hlopt.Colors{Fg: palette[9], Bg: palette[5]}
+	pMenuSbarColors  = hlopt.Colors{Bg: palette[3]}
+	pMenuThumbColors = hlopt.Colors{Bg: palette[9]}
 
-	spellBadColors   = hlopt.Colors{Fg: Palette[2], Sp: Palette[9]}
-	spellCapColors   = hlopt.Colors{Fg: Palette[2], Sp: Palette[2]}
-	spellRareColors  = hlopt.Colors{Fg: Palette[9], Sp: Palette[9]}
-	spellLocalColors = hlopt.Colors{Fg: Palette[9], Sp: Palette[2]}
+	spellBadColors   = hlopt.Colors{Fg: palette[2], Sp: palette[9]}
+	spellCapColors   = hlopt.Colors{Fg: palette[2], Sp: palette[2]}
+	spellRareColors  = hlopt.Colors{Fg: palette[9], Sp: palette[9]}
+	spellLocalColors = hlopt.Colors{Fg: palette[9], Sp: palette[2]}
 
-	specialColors  = hlopt.Colors{Fg: Palette[1], Sp: Palette[7]}
-	constantColors = hlopt.Colors{Fg: Palette[2], Sp: Palette[7]}
-	todoColors     = hlopt.Colors{Fg: Palette[9], Bg: Palette[4]}
+	specialColors  = hlopt.Colors{Fg: palette[1], Sp: palette[7]}
+	constantColors = hlopt.Colors{Fg: palette[2], Sp: palette[7]}
+	todoColors     = hlopt.Colors{Fg: palette[9], Bg: palette[4]}
 )
 
 func main() {
