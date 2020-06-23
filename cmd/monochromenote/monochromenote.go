@@ -8,50 +8,83 @@ import (
 	"github.com/koron/csvim/internal/highlight"
 )
 
+var (
+	none      = attrsAll{list: highlight.None}
+	bold      = attrsAll{list: highlight.Bold}
+	reverse   = attrsAll{list: highlight.Reverse}
+	underline = attrsAll{list: highlight.Underline}
+	undercurl = attrsAll{list: highlight.Undercurl}
+)
+
+var Palette = []Color{
+	Color{Nr: "Black", Name: "grey0"},      // 0:
+	Color{Nr: "Black", Name: "grey10"},     // 1: darkFg
+	Color{Nr: "DarkGrey", Name: "grey25"},  // 2: baseFg
+	Color{Nr: "DarkGrey", Name: "grey40"},  // 3: scrollBarC
+	Color{Nr: "DarkGrey", Name: "grey50"},  // 4:
+	Color{Nr: "LightGrey", Name: "grey60"}, // 5: darkBg
+	Color{Nr: "LightGrey", Name: "grey70"}, // 6: baseBg
+	Color{Nr: "White", Name: "grey80"},     // 7: lightBg
+	Color{Nr: "White", Name: "grey85"},     // 8:
+	Color{Nr: "White", Name: "grey90"},     // 9: lightFg
+	Color{Nr: "White", Name: "grey100"},    // 10: white
+}
+
+var (
+	_normal = colors{fg: Palette[2], bg: Palette[6]}
+	_light  = colors{fg: Palette[9], bg: Palette[6]}
+	_dark   = colors{fg: Palette[1], bg: Palette[6]}
+
+	normalColors     = _normal
+	nonTextColors    = colors{fg: Palette[9], bg: Palette[5]}
+	terminalColors   = colors{fg: Palette[6], bg: Palette[2]}
+	foldColumnColors = colors{fg: Palette[2], bg: Palette[4]}
+
+	lineNrColors = colors{fg: Palette[9], bg: Palette[6]}
+
+	statusLineColors       = colors{fg: Palette[9], bg: Palette[2]}
+	statusLineNCColors     = colors{fg: Palette[6], bg: Palette[2]}
+	vertSplitColors        = colors{fg: Palette[2], bg: Palette[2]}
+	statusLineTermColors   = colors{fg: Palette[9], bg: Palette[3]}
+	statusLineTermNCColors = colors{fg: Palette[6], bg: Palette[3]}
+
+	subCursorColors   = colors{fg: Palette[2], bg: Palette[7]}
+	matchParenColors  = colors{fg: Palette[2], bg: Palette[9]}
+	extraCursorColors = colors{fg: Palette[10], bg: Palette[2]}
+
+	wildMenuColors   = extraCursorColors
+	searchColors     = colors{fg: Palette[7], bg: Palette[4]}
+	visualColor      = Palette[8] // for setting to GUIBg only
+	errorMsgColors   = colors{fg: Palette[9], bg: Palette[1]}
+	warningMsgColors = colors{fg: Palette[9], bg: Palette[2]}
+
+	diffAddColors    = colors{fg: Palette[2], bg: Palette[7]}
+	diffDeleteColors = colors{fg: Palette[9], bg: Palette[7]}
+	diffChangeColors = colors{fg: Palette[9], bg: Palette[5]}
+	diffTextColors   = colors{fg: Palette[2], bg: Palette[5]}
+
+	tabLineFillColors = colors{bg: Palette[1]}
+	tabLineColors     = colors{fg: Palette[5], bg: Palette[1]}
+	tabLineSelColors  = colors{fg: Palette[2], bg: Palette[5]}
+
+	pMenuColors      = colors{fg: Palette[2], bg: Palette[5]}
+	pMenuSelColors   = colors{fg: Palette[9], bg: Palette[5]}
+	pMenuSbarColors  = colors{bg: Palette[3]}
+	pMenuThumbColors = colors{bg: Palette[9]}
+
+	spellBadColors   = colors{fg: Palette[2], sp: Palette[9]}
+	spellCapColors   = colors{fg: Palette[2], sp: Palette[2]}
+	spellRareColors  = colors{fg: Palette[9], sp: Palette[9]}
+	spellLocalColors = colors{fg: Palette[9], sp: Palette[2]}
+
+	specialColors  = colors{fg: Palette[1], sp: Palette[7]}
+	constantColors = colors{fg: Palette[2], sp: Palette[7]}
+	todoColors     = colors{fg: Palette[9], bg: Palette[4]}
+)
+
 func main() {
 	colorscheme.WarnDefaultGroups = true
 	cs := colorscheme.New("monochromenote").WithBackground(colorscheme.Light)
-
-	var (
-		attrNone   = highlight.AttrList{"NONE"}
-		attrBold   = highlight.AttrList{"bold"}
-		attrRev    = highlight.AttrList{"reverse"}
-		attrUC     = highlight.AttrList{"undercurl"}
-		attrUL     = highlight.AttrList{"underline"}
-		attrBoldUL = highlight.AttrList{"bold", "underline"}
-
-		baseAS   = highlight.AttrSet{Term: attrNone, GUI: attrNone}
-		boldAS   = highlight.AttrSet{Term: attrBold, GUI: attrBold}
-		ucAS     = highlight.AttrSet{Term: attrUL, GUI: attrUC}
-		ulAS     = highlight.AttrSet{Term: attrUL, GUI: attrUL}
-		boldULAS = highlight.AttrSet{Term: attrBoldUL, CTerm: attrBoldUL, GUI: attrBoldUL}
-
-		baseFg = Color{Nr: "Black", Name: "gray25"}
-		baseBg = Color{Nr: "DarkGray", Name: "gray70"}
-		baseCS = highlight.ColorSet{Fg: baseFg, Bg: baseBg}
-
-		lightFg   = Color{Nr: "LightGray", Name: "gray90"}
-		lightBg   = Color{Nr: "LightGray", Name: "gray80"}
-		lightCS   = highlight.ColorSet{Fg: lightFg, Bg: baseBg}
-
-		darkFg = Color{Nr: "Black", Name: "gray10"}
-		darkBg = Color{Nr: "DarkGray", Name: "gray60"}
-
-		semiBoldCS   = highlight.ColorSet{Fg: darkFg, Bg: baseBg}
-		semiBoldArgs = highlight.Arguments{AttrSet: baseAS, ColorSet: semiBoldCS}
-
-		darkAccent1Args = highlight.Arguments{
-			AttrSet: baseAS,
-			ColorSet: highlight.ColorSet{
-				Fg: Color{Nr: "LightGray", Name: "gray90"},
-				Bg: Color{Nr: "DarkGray", Name: "gray10"},
-			},
-		}
-		lightBoldArgs = highlight.Arguments{AttrSet: boldAS, ColorSet: lightCS}
-
-		scrollBarC   = Color{Nr: "Black", Name: "gray40"}
-		scrollThumbC = Color{Nr: "White", Name: "gray90"}
-	)
 
 	cs.Group("Normal").Apply(normalColors)
 
@@ -88,100 +121,47 @@ func main() {
 	cs.Group("Conceal").Apply(_light)
 	cs.Group("SpecialKey").Apply(_light)
 
-	// TODO:
-	visualBg := Color{Nr: "LightGray", Name: "gray85"}
-	cs.Group("Visual").WithTerm(attrRev).WithCTerm(attrRev).WithGUIBg(visualBg)
-	cs.Group("VisualNOS").WithGUIBg(visualBg).WithAttrSet(boldULAS)
+	cs.Group("Visual").WithGUIBg(visualColor).
+		WithTerm(highlight.Reverse).WithCTerm(highlight.Reverse)
+	cs.Group("VisualNOS").WithGUIBg(visualColor).Apply(bold, underline)
 
-	cs.Group("Directory").WithArguments(semiBoldArgs)
-	cs.Group("ErrorMsg").WithArguments(darkAccent1Args)
-	cs.Group("ModeMsg").WithArguments(semiBoldArgs)
-	cs.Group("MoreMsg").WithArguments(semiBoldArgs)
-	cs.Group("WarningMsg").WithArguments(lightBoldArgs)
+	cs.Group("Directory").Apply(_dark)
+	cs.Group("ErrorMsg").Apply(errorMsgColors)
+	cs.Group("ModeMsg").Apply(_dark)
+	cs.Group("MoreMsg").Apply(_dark)
+	cs.Group("WarningMsg").Apply(warningMsgColors, bold)
 
-	cs.Group("DiffAdd").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: lightBg},
-	})
-	cs.Group("DiffDelete").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: lightBg},
-	})
-	cs.Group("DiffChange").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	})
-	cs.Group("DiffText").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	})
+	cs.Group("DiffAdd").Apply(diffAddColors)
+	cs.Group("DiffDelete").Apply(diffDeleteColors)
+	cs.Group("DiffChange").Apply(diffChangeColors)
+	cs.Group("DiffText").Apply(diffTextColors)
 
-	cs.Group("TabLineFill").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Bg: darkFg},
-	})
-	cs.Group("TabLine").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: darkBg, Bg: darkFg},
-	})
-	cs.Group("TabLineSel").WithArguments(highlight.Arguments{
-		AttrSet:  boldAS,
-		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	})
+	cs.Group("TabLineFill").Apply(tabLineFillColors)
+	cs.Group("TabLine").Apply(tabLineColors)
+	cs.Group("TabLineSel").Apply(tabLineSelColors, bold)
 
-	cs.Group("Pmenu").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: baseFg, Bg: darkBg},
-	})
-	cs.Group("PmenuSel").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Bg: darkBg},
-	})
-	cs.Group("PmenuSbar").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Bg: scrollBarC},
-	})
-	cs.Group("PmenuThumb").WithArguments(highlight.Arguments{
-		AttrSet:  baseAS,
-		ColorSet: highlight.ColorSet{Bg: scrollThumbC},
-	})
+	cs.Group("Pmenu").Apply(pMenuColors)
+	cs.Group("PmenuSel").Apply(pMenuSelColors)
+	cs.Group("PmenuSbar").Apply(pMenuSbarColors)
+	cs.Group("PmenuThumb").Apply(pMenuThumbColors)
 
-	cs.Group("SpellBad").WithArguments(highlight.Arguments{
-		AttrSet:  ucAS,
-		ColorSet: highlight.ColorSet{Sp: lightFg},
-	})
-	cs.Group("SpellCap").WithArguments(highlight.Arguments{
-		AttrSet:  ucAS,
-		ColorSet: highlight.ColorSet{Sp: baseFg},
-	})
-	cs.Group("SpellRare").WithArguments(highlight.Arguments{
-		AttrSet:  ucAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Sp: lightFg},
-	})
-	cs.Group("SpellLocal").WithArguments(highlight.Arguments{
-		AttrSet:  ucAS,
-		ColorSet: highlight.ColorSet{Fg: lightFg, Sp: baseFg},
-	})
+	cs.Group("SpellBad").Apply(spellBadColors, undercurl)
+	cs.Group("SpellCap").Apply(spellCapColors, undercurl)
+	cs.Group("SpellRare").Apply(spellRareColors, undercurl)
+	cs.Group("SpellLocal").Apply(spellLocalColors, undercurl)
 
 	// custom groups
 
 	cs.Group("Comment").Apply(_light)
-	cs.Group("Statement").WithColorSet(baseCS).WithAttrSet(boldAS)
-	cs.Group("Type").WithArguments(semiBoldArgs)
-	cs.Group("PreProc").WithArguments(semiBoldArgs)
-	cs.Group("Identifier").WithArguments(semiBoldArgs)
-	cs.Group("Special").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: darkFg, Bg: lightBg})
-	cs.Group("Constant").WithAttrSet(baseAS).WithColorSet(highlight.ColorSet{Fg: baseFg, Bg: lightBg})
-	cs.Group("Error").WithArguments(darkAccent1Args)
-	cs.Group("Underlined").WithArguments(highlight.Arguments{AttrSet: ulAS, ColorSet: baseCS})
-
-	cs.Group("Todo").WithArguments(highlight.Arguments{
-		AttrSet: baseAS,
-		ColorSet: highlight.ColorSet{
-			Fg: Color{Nr: "LightGray", Name: "gray90"},
-			Bg: Color{Nr: "DarkGray", Name: "gray50"},
-		},
-	})
+	cs.Group("Statement").Apply(_normal, bold)
+	cs.Group("Type").Apply(_dark)
+	cs.Group("PreProc").Apply(_dark)
+	cs.Group("Identifier").Apply(_dark)
+	cs.Group("Special").Apply(specialColors)
+	cs.Group("Constant").Apply(constantColors)
+	cs.Group("Error").Apply(errorMsgColors)
+	cs.Group("Underlined").Apply(_normal, underline)
+	cs.Group("Todo").Apply(todoColors)
 
 	if err := cs.Marshal(os.Stdout); err != nil {
 		log.Fatal(err)
