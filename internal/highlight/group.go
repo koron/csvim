@@ -156,28 +156,6 @@ func (g *Group) MergeStop(src TermList) *Group {
 	return g
 }
 
-type GroupOption interface {
-	ApplyGroup(*Group) *Group
-}
-
-type GroupOptionFunc func(*Group) *Group
-
-var _ GroupOption = GroupOptionFunc(nil)
-
-func (fn GroupOptionFunc) ApplyGroup(g *Group) *Group {
-	return fn(g)
-}
-
-func (g *Group) Apply(opts ...GroupOption) *Group {
-	for _, o := range opts {
-		if o == nil {
-			continue
-		}
-		g = o.ApplyGroup(g)
-	}
-	return g
-}
-
 func (g *Group) Marshal(w io.Writer) error {
 	if g.Name == "" {
 		return errors.New("highlight with empty Name is not allowed")
