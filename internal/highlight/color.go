@@ -20,6 +20,13 @@ type Color interface {
 
 type ColorNr string
 
+func (cn *ColorNr) Set(c TermColor) {
+	if c == nil {
+		return
+	}
+	*cn = c.TermColor()
+}
+
 func (cn ColorNr) TermColor() ColorNr {
 	return cn
 }
@@ -43,6 +50,13 @@ func (cn *ColorNr) merge(src ColorNr) {
 }
 
 type ColorName string
+
+func (cn *ColorName) Set(c GUIColor) {
+	if c == nil {
+		return
+	}
+	*cn = c.GUIColor()
+}
 
 func (cn ColorName) GUIColor() ColorName {
 	return cn

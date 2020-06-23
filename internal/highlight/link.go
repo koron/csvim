@@ -6,6 +6,7 @@ import (
 	"io"
 )
 
+// Link represents "highlight link" entry.
 type Link struct {
 	From string
 	To   string
@@ -13,15 +14,12 @@ type Link struct {
 	Default bool
 }
 
+// NewLink creates a link.
 func NewLink(from, to string) *Link {
 	return &Link{From: from, To: to}
 }
 
-func (ln *Link) WithTo(to string) *Link {
-	ln.To = to
-	return ln
-}
-
+// Marshal outputs "highlight link ..." command to io.Writer.
 func (ln *Link) Marshal(w io.Writer) error {
 	if ln.From == "" || ln.To == "" {
 		return errors.New("link with empty From or To is not allowed")

@@ -5,28 +5,37 @@ import (
 	"io"
 )
 
+// Attr is a value for "term", "cterm" and "gui" arguments.
 type Attr string
 
-var (
-	None          = AttrList{"NONE"}
-	Bold          = AttrList{"bold"}
-	Underline     = AttrList{"underline"}
-	Undercurl     = AttrList{"undercurl"}
-	Strikethrough = AttrList{"strikethrough"}
-	Reverse       = AttrList{"reverse"}
-	Inverse       = AttrList{"inverse"}
-	Italic        = AttrList{"italic"}
-	Standout      = AttrList{"standout"}
-	Nocombine     = AttrList{"nocombine"}
+const (
+	// None is no attributes used (used to reset it).
+	None Attr = "NONE"
+	// Bold is "bold".
+	Bold Attr = "bold"
+	// Underline is for underline decolation.
+	Underline Attr = "underline"
+	// Undercurl is for undercurl decolation, not always available.
+	Undercurl Attr = "undercurl"
+	// Strikethrough is for strike through decolation, not always available.
+	Strikethrough Attr = "strikethrough"
+	// Reverse is an effect to swap Fg and Bg.
+	Reverse Attr = "reverse"
+	// Inverse is same as Reverse.
+	Inverse Attr = "inverse"
+	// Italic means using italic font.
+	Italic Attr = "italic"
+	// Standout means ... just stand out.
+	Standout Attr = "standout"
+	// Nocombine overrides attributes instead of combining them.
+	Nocombine Attr = "nocombine"
 )
 
+// AttrList is set of Attr for "term", "cterm" and "gui" arguments.
 type AttrList []Attr
 
-func (attrs AttrList) ApplyGroup(g *Group) *Group {
-	return g.MergeTerm(attrs).MergeCTerm(attrs).MergeGUI(attrs)
-}
-
-func (attrs *AttrList) merge(src AttrList) {
+// Append adds AttrList.
+func (attrs *AttrList) Append(src AttrList) {
 	if len(src) == 0 {
 		return
 	}

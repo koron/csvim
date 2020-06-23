@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	none      = highlight.None
-	bold      = highlight.Bold
-	reverse   = highlight.Reverse
-	underline = highlight.Underline
-	undercurl = highlight.Undercurl
+	none      = hlopt.AttrAll(highlight.None)
+	bold      = hlopt.AttrAll(highlight.Bold)
+	reverse   = hlopt.AttrAll(highlight.Reverse)
+	underline = hlopt.AttrAll(highlight.Underline)
+	undercurl = hlopt.AttrAll(highlight.Undercurl)
 )
 
 var palette = []hlopt.Color{
@@ -122,9 +122,12 @@ func main() {
 	cs.Group("Conceal").Apply(_light)
 	cs.Group("SpecialKey").Apply(_light)
 
-	cs.Group("Visual").WithGUIBg(visualColor).
-		WithTerm(highlight.Reverse).WithCTerm(highlight.Reverse)
-	cs.Group("VisualNOS").WithGUIBg(visualColor).Apply(bold, underline)
+	cs.Group("Visual").Apply(
+		hlopt.GUIBg(visualColor),
+		hlopt.Term(highlight.Reverse),
+		hlopt.CTerm(highlight.Reverse),
+	)
+	cs.Group("VisualNOS").Apply(hlopt.GUIBg(visualColor), bold, underline)
 
 	cs.Group("Directory").Apply(_dark)
 	cs.Group("ErrorMsg").Apply(errorMsgColors)

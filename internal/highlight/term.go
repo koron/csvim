@@ -5,9 +5,11 @@ import (
 	"io"
 )
 
+// TermList is a type for "start" and "stop" arguments.
 type TermList []string
 
-func (terms *TermList) merge(src TermList) {
+// Append appends TermList.
+func (terms *TermList) Append(src TermList) {
 	if len(src) == 0 {
 		return
 	}

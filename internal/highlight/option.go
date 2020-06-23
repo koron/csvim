@@ -1,23 +1,27 @@
 package highlight
 
+// Option is an option to modify Group.
 type Option interface {
-	ApplyGroup(*Group) *Group
+	Apply(*Group)
 }
 
-type OptionFunc func(*Group) *Group
+// OptionFunc is short hand to implements Option by a function. 
+type OptionFunc func(*Group)
 
 var _ Option = OptionFunc(nil)
 
-func (fn OptionFunc) ApplyGroup(g *Group) *Group {
-	return fn(g)
+// Apply implements Option interface.
+func (fn OptionFunc) Apply(g *Group) {
+	fn(g)
 }
 
+// Apply applies all options to a Group.
 func (g *Group) Apply(opts ...Option) *Group {
 	for _, o := range opts {
 		if o == nil {
 			continue
 		}
-		g = o.ApplyGroup(g)
+		o.Apply(g)
 	}
 	return g
 }
