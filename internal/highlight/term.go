@@ -8,14 +8,6 @@ import (
 // TermList is a type for "start" and "stop" arguments.
 type TermList []string
 
-// Append appends TermList.
-func (terms *TermList) Append(src TermList) {
-	if len(src) == 0 {
-		return
-	}
-	*terms = append(*terms, src...)
-}
-
 func (terms TermList) writeTo(w io.Writer, label string) error {
 	if len(terms) == 0 {
 		return nil

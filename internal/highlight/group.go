@@ -32,29 +32,6 @@ func NewGroup(name string) *Group {
 	return &Group{Name: name}
 }
 
-// Merge merges/includes "groups" into "g" and returns modified "g".
-func (g *Group) Merge(groups ...*Group) *Group {
-	for _, src := range groups {
-		g.Term.Append(src.Term)
-		g.Start.Append(src.Start)
-		g.Stop.Append(src.Stop)
-		g.CTerm.Append(src.CTerm)
-		g.CTermFg.merge(src.CTermFg)
-		g.CTermBg.merge(src.CTermBg)
-		g.GUI.Append(src.GUI)
-		if src.Font != "" {
-			g.Font = src.Font
-		}
-		g.GUIFg.merge(src.GUIFg)
-		g.GUIBg.merge(src.GUIBg)
-		g.GUISp.merge(src.GUISp)
-		if src.Default {
-			g.Default = true
-		}
-	}
-	return g
-}
-
 // Marshal outputs "highlight [default] {group-name} ..." command.
 func (g *Group) Marshal(w io.Writer) error {
 	if g.Name == "" {

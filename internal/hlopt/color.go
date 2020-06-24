@@ -8,7 +8,7 @@ type Coloring interface {
 	ColorName() highlight.ColorName
 }
 
-// CTermFg returns highlight.Option to apply a color to CTermFg field of Group.
+// CTermFg returns Option to apply a color to CTermFg field of Group.
 func CTermFg(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -18,7 +18,7 @@ func CTermFg(c Coloring) highlight.Option {
 	})
 }
 
-// CTermBg returns highlight.Option to apply a color to CTermBg field of Group.
+// CTermBg returns Option to apply a color to CTermBg field of Group.
 func CTermBg(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -28,7 +28,7 @@ func CTermBg(c Coloring) highlight.Option {
 	})
 }
 
-// GUIFg returns highlight.Option to apply a color to GUIFg field of Group.
+// GUIFg returns Option to apply a color to GUIFg field of Group.
 func GUIFg(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -38,7 +38,7 @@ func GUIFg(c Coloring) highlight.Option {
 	})
 }
 
-// GUIBg returns highlight.Option to apply a color to GUIBg field of Group.
+// GUIBg returns Option to apply a color to GUIBg field of Group.
 func GUIBg(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -48,7 +48,7 @@ func GUIBg(c Coloring) highlight.Option {
 	})
 }
 
-// GUISp returns highlight.Option to apply a color to GUISp field of Group.
+// GUISp returns Option to apply a color to GUISp field of Group.
 func GUISp(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -58,7 +58,7 @@ func GUISp(c Coloring) highlight.Option {
 	})
 }
 
-// Fg returns highlight.Option to apply a color to fields of Group: CTermFg and
+// Fg returns Option to apply a color to fields of Group: CTermFg and
 // GUIFg.
 func Fg(c Coloring) highlight.Option {
 	if c == nil {
@@ -70,7 +70,7 @@ func Fg(c Coloring) highlight.Option {
 	})
 }
 
-// Bg returns highlight.Option to apply a color to fields of Group: CTermBg and
+// Bg returns Option to apply a color to fields of Group: CTermBg and
 // GUIBg.
 func Bg(c Coloring) highlight.Option {
 	if c == nil {
@@ -82,7 +82,7 @@ func Bg(c Coloring) highlight.Option {
 	})
 }
 
-// Sp returns highlight.Option to apply a color to field of Group: GUISp.
+// Sp returns Option to apply a color to field of Group: GUISp.
 func Sp(c Coloring) highlight.Option {
 	if c == nil {
 		return nop
@@ -115,7 +115,7 @@ type Colors struct {
 	Sp Coloring
 }
 
-// Apply implements highlight.Option for Colors
+// Apply implements Option for Colors
 func (cs Colors) Apply(g *highlight.Group) {
 	g.Apply(Fg(cs.Fg), Bg(cs.Bg), Sp(cs.Sp))
 }

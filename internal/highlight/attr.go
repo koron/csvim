@@ -34,14 +34,6 @@ const (
 // AttrList is set of Attr for "term", "cterm" and "gui" arguments.
 type AttrList []Attr
 
-// Append adds AttrList.
-func (attrs *AttrList) Append(src AttrList) {
-	if len(src) == 0 {
-		return
-	}
-	*attrs = append(*attrs, src...)
-}
-
 func (attrs AttrList) writeTo(w io.Writer, label string) error {
 	if len(attrs) == 0 {
 		return nil
