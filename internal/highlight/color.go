@@ -5,34 +5,17 @@ import (
 	"io"
 )
 
-type TermColor interface {
-	TermColor() ColorNr
-}
-
-type GUIColor interface {
-	GUIColor() ColorName
-}
-
-type Color interface {
-	TermColor
-	GUIColor
-}
-
+// ColorNr is color number for terminal.
 type ColorNr string
-
-func (cn *ColorNr) Set(c TermColor) {
-	if c == nil {
-		return
-	}
-	*cn = c.TermColor()
-}
-
-func (cn ColorNr) TermColor() ColorNr {
-	return cn
-}
 
 func (cn ColorNr) isValid() bool {
 	return cn != ""
+}
+
+func (cn *ColorNr) merge(src ColorNr) {
+	if src.isValid() {
+		*cn = src
+	}
 }
 
 func (cn ColorNr) writeTo(w io.Writer, label string) error {
@@ -43,24 +26,8 @@ func (cn ColorNr) writeTo(w io.Writer, label string) error {
 	return err
 }
 
-func (cn *ColorNr) merge(src ColorNr) {
-	if src.isValid() {
-		*cn = src
-	}
-}
-
+// ColorName is color name for GUI.
 type ColorName string
-
-func (cn *ColorName) Set(c GUIColor) {
-	if c == nil {
-		return
-	}
-	*cn = c.GUIColor()
-}
-
-func (cn ColorName) GUIColor() ColorName {
-	return cn
-}
 
 func (cn ColorName) isValid() bool {
 	return cn != ""
