@@ -78,8 +78,8 @@ var (
 	spellRareColors  = hlopt.Colors{Fg: palette[9], Sp: palette[9]}
 	spellLocalColors = hlopt.Colors{Fg: palette[9], Sp: palette[2]}
 
-	specialColors  = hlopt.Colors{Fg: palette[1], Sp: palette[7]}
-	constantColors = hlopt.Colors{Fg: palette[2], Sp: palette[7]}
+	specialColors  = hlopt.Colors{Fg: palette[1], Bg: palette[7]}
+	constantColors = hlopt.Colors{Fg: palette[2], Bg: palette[7]}
 	todoColors     = hlopt.Colors{Fg: palette[9], Bg: palette[4]}
 )
 
