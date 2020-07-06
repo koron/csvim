@@ -18,17 +18,17 @@ var (
 )
 
 var palette = []hlopt.Color{
-	hlopt.Color{Nr: "Black", Name: "grey0"},      // 0:
-	hlopt.Color{Nr: "Black", Name: "grey10"},     // 1: darkFg
-	hlopt.Color{Nr: "DarkGrey", Name: "grey25"},  // 2: baseFg
-	hlopt.Color{Nr: "DarkGrey", Name: "grey40"},  // 3: scrollBarC
-	hlopt.Color{Nr: "DarkGrey", Name: "grey50"},  // 4:
-	hlopt.Color{Nr: "LightGrey", Name: "grey60"}, // 5: darkBg
-	hlopt.Color{Nr: "LightGrey", Name: "grey70"}, // 6: baseBg
-	hlopt.Color{Nr: "White", Name: "grey80"},     // 7: lightBg
-	hlopt.Color{Nr: "White", Name: "grey85"},     // 8:
-	hlopt.Color{Nr: "White", Name: "grey90"},     // 9: lightFg
-	hlopt.Color{Nr: "White", Name: "grey100"},    // 10: white
+	{Nr: "Black", Name: "grey0"},      // 0:
+	{Nr: "Black", Name: "grey10"},     // 1: darkFg
+	{Nr: "DarkGrey", Name: "grey25"},  // 2: baseFg
+	{Nr: "DarkGrey", Name: "grey40"},  // 3: scrollBarC
+	{Nr: "DarkGrey", Name: "grey50"},  // 4:
+	{Nr: "LightGrey", Name: "grey60"}, // 5: darkBg
+	{Nr: "LightGrey", Name: "grey70"}, // 6: baseBg
+	{Nr: "White", Name: "grey80"},     // 7: lightBg
+	{Nr: "White", Name: "grey85"},     // 8:
+	{Nr: "White", Name: "grey90"},     // 9: lightFg
+	{Nr: "White", Name: "grey100"},    // 10: white
 }
 
 var (
@@ -80,7 +80,8 @@ var (
 
 	specialColors  = hlopt.Colors{Fg: palette[1], Bg: palette[7]}
 	constantColors = hlopt.Colors{Fg: palette[2], Bg: palette[7]}
-	todoColors     = hlopt.Colors{Fg: palette[9], Bg: palette[4]}
+	errorColors    = hlopt.Colors{Fg: palette[4], Bg: palette[10]}
+	todoColors     = hlopt.Colors{Fg: palette[10], Bg: palette[7]}
 )
 
 func main() {
@@ -163,7 +164,7 @@ func main() {
 	cs.Group("Identifier").Apply(_dark)
 	cs.Group("Special").Apply(specialColors)
 	cs.Group("Constant").Apply(constantColors)
-	cs.Group("Error").Apply(errorMsgColors)
+	cs.Group("Error").Apply(errorColors)
 	cs.Group("Underlined").Apply(_normal, underline)
 	cs.Group("Todo").Apply(todoColors)
 
