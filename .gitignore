@@ -2,3 +2,5 @@ tags
 tmp/
 
 monochromenote.vim
+
+*.exe
